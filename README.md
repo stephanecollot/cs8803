@@ -1,8 +1,9 @@
 # cs8803
 
 Coding rules:
-- Tabulation: use 2 spaces, not tab!
+- Tabulation: use 2 spaces, not tab! __Set your IDE__.
 - Variable name: variableName
+- `KeyLocator` class should be named ``key_locator.py``
 
 
 
