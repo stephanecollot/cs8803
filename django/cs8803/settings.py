@@ -82,3 +82,42 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(funcName)s:%(lineno)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
+        'verboseConsole': {
+            'format' : "%(levelname)s [%(name)s:%(funcName)s:%(lineno)s] %(message)s",
+        },
+        'simple': {
+            'format': 'ohhhhhh %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'debug.log',
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verboseConsole',
+            },
+    },
+    'loggers': {
+        'main': {
+            'handlers': ['console','file'],
+            'level': 'DEBUG',
+        },
+    },
+}
+
+## Be careful this is NOT threadsafe !
+GLOBAL_LOAD = "not init"
