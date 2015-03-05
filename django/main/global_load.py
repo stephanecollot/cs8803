@@ -8,13 +8,11 @@ logger = logging.getLogger(__name__)
 
 class GlobalLoad:
   ready = False
-  #docList = null
+  docList = DocumentList()
 
   def __init__(self):
     logger.info('GlobalLoad init ++++++++')
-    
-    self.docList = DocumentList()
-      
+         
     directory = "../stego_dataset/"
     os.chdir(directory)
     for file in glob.glob("*.txt"):

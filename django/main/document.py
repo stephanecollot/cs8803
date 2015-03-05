@@ -27,7 +27,7 @@ class DocumentList:
     #logger.info('Doc List Add')
     
   def debugDocs(self):
-    logger.info('Doc at 1:' + str(self.docs[1].id) + self.docs[1].fileName)
+    logger.debug('Doc at 1:' + str(self.docs[1].id) + self.docs[1].fileName)
     for doc in self.docs:
       #logger.info('Doc Listing' + doc.content)
       pass
