@@ -24,6 +24,9 @@ class GlobalLoad:
     #Entity extraction
     self.docList.entityExtraction()
     
+    #Search test
+    #self.docList.search("test")
+    
     logger.info('GlobalLoad init --------')
     self.ready = True
 

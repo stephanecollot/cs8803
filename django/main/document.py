@@ -32,6 +32,12 @@ class DocumentList:
       #logger.info('Doc Listing' + doc.content)
       pass
       
+  def search(self, text):
+
+    for doc in self.docs:
+      if text in doc.content:
+        logger.info('Doc id:' + str(doc.id) + ' contains: ' + text)
+      
   def entityExtraction(self):
     logger.info('entityExtraction +')
     # Jason ;) you can start here, may be you can create a similar architecture of document.py but entity.py
