@@ -11,7 +11,7 @@ class GlobalLoad:
   #docList = null
 
   def __init__(self):
-    logger.info('GlobalLoad init ------------------------')
+    logger.info('GlobalLoad init ++++++++')
     
     self.docList = DocumentList()
       
@@ -19,8 +19,8 @@ class GlobalLoad:
     os.chdir(directory)
     for file in glob.glob("*.txt"):
       with open(directory+file, 'r') as content_file:
-        self.docList.addDoc(content_file.read())
+        self.docList.addDoc(content_file.read(), file)
     
-    #self.docList.debugDocs()
-    
+    self.docList.debugDocs()
+    logger.info('GlobalLoad init --------')
     self.ready = True
