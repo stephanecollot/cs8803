@@ -1,5 +1,8 @@
 # cs8803
 
+Please put all the .txt files in ``stego_dataset/`` (they are ignored by git, irrelevant to commit)
+
+
 Coding rules:
 - Tabulation: use 2 spaces, not tab! __Set your IDE__.
 - Variable name: variableName
