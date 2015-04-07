@@ -10,4 +10,7 @@ urlpatterns = patterns('',
 urlpatterns += patterns('',
   url(r'^s/(?P<path>.*)$', 'django.views.static.serve', {
     'document_root': 'main/templates/s',
-  }),)
+  }),
+  url(r'^api/v1.0/document/(?P<id>\d+)[/]?$', views.DocumentViewSet.as_view(), name='document_viewset'),
+  url(r'^api/v1.0/document[/]?$', views.DocumentViewSet.as_view(), name='document_viewset'),
+)

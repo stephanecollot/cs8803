@@ -1,8 +1,8 @@
-
+import json
 import logging
 logger = logging.getLogger(__name__)
 
-class Document:
+class Document(object):
   content = ""
   id = 0
   fileName = ""
@@ -10,9 +10,12 @@ class Document:
   def __init__(self, content, id, fileName):
     #logger.info('Doc' + str(id))
     
-    self.content = content
+    self.content = unicode(content, 'ISO-8859-1')
     self.id = id
     self.fileName = fileName
+    
+  def toJSON(self):
+    return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
     
 class DocumentList:

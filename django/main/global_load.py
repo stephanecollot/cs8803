@@ -16,12 +16,13 @@ class GlobalLoad:
     #Document load, online once
     directory = "../stego_dataset/"
     owd = os.getcwd() # save current path
-    os.chdir(directory)
-    for file in glob.glob("*.txt"):
+    #os.chdir(directory)
+    for file in glob.glob(directory + "*.txt"):
       with open(directory+file, 'r') as content_file:
         self.docList.addDoc(content_file.read(), file)
-    self.docList.debug()
+    #self.docList.debug()
     os.chdir(owd) # come back to the path
+    logger.info('GlobalLoad Nbr docs loaded: ' + str(len(self.docList.docs)))
         
     #Entity extraction
     self.docList.entityExtraction()
