@@ -4,6 +4,10 @@ from django.template import Context, loader
 from django.shortcuts import render_to_response
 from django.conf import settings
 
+from document import Document
+from rest_framework import viewsets
+from serializers import DocumentSerializer
+
 import logging
 logger = logging.getLogger(__name__)
 
@@ -13,3 +17,4 @@ def index(request):
   logger.info('It works! global ready:' + str(settings.GLOBAL_LOAD.ready))
   return render_to_response('index.html')
   #return HttpResponse("Hello, world. Here is the index.")
+  

@@ -8,7 +8,13 @@ Coding rules:
 - Variable name: variableName
 - `KeyLocator` class should be named ``key_locator.py``
 
+## Install
+```
+pip install django
+pip install djangorestframework
+```
 
+## Launch
 
 Launch command in /django directory:
 ```
