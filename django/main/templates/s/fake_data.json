@@ -19,13 +19,13 @@
         "type": 0
     }, {
         "id": 4,
-        "name": "Mme.Magloire",
+        "name": "Assoc. Mme.Magloire",
         "rank": 0,
         "frequency": 2,
         "type": 1
     }, {
         "id": 5,
-        "name": "CountessdeLo",
+        "name": "CountessdeLo Inc.",
         "rank": 1,
         "frequency": 11,
         "type": 1
@@ -37,7 +37,7 @@
         "type": 2
     }, {
         "id": 7,
-        "name": "Champtercier",
+        "name": "1 Champtercier St.",
         "rank": 0,
         "frequency": 1,
         "type": 2
