@@ -1,5 +1,202 @@
-<html>
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+    .node {
+        stroke: black;
+        stroke-width: 1.5px;
+    }
+    .node.fixed {
+        stroke-width: 2.5px;
+        stroke: #2c7fb8;
+    }
+    .link {
+        stroke: #999;
+        stroke-opacity: .6;
+    }
+    .label {
+        stroke-width: 0;
+        font-family="sans-serif";
+        font-size="20px";
+        text-anchor="middle";
+    }
+    .chart rect {
+        fill: steelblue;
+    }
+    .chart text {
+        fill: white;
+        font: 10px sans-serif;
+        text-anchor: end;
+    }
+}
+</style>
 
-replace this ;)
+<body>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src=s/d3/colorbrewer.js></script>
+    <script>
+        var width = 700,
+            height = 500;
 
-</html>
+        var color = d3.scale.ordinal().range(colorbrewer.Blues[5]);
+
+        var force = d3.layout.force()
+            .charge(-120)
+            .linkDistance(125)
+            .size([width, height]);
+
+        var leftsvg = d3.select("body").append("svg")
+            .attr("width", 300)
+            .attr("height", height)
+            .attr("class", "chart");
+
+        var svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+         //place holder for document search, might not want an svg
+        var rightsvg = d3.select("body").append("svg")
+
+        .attr("width", 300)
+            .attr("height", height);
+
+        function shape(node) {
+            switch (node.type) {
+                case 0: //person
+                    return "circle";
+                case 1: //org
+                    return "square";
+                case 2: //other?
+                    return "diamond";
+            }
+        }
+
+        function click(d) {
+            d.fixed = !d.fixed;
+            d3.select(this).classed("fixed", d.fixed);
+        }
+        d3.json("s/fake_data.json", function(error, graph) {
+            var nodesize = d3.scale.linear()
+                .domain([0, d3.max(graph.nodes, function(d) {
+                    return d.rank;
+                })])
+                .range([500, 1500]);
+
+            force
+                .nodes(graph.nodes)
+                .links(graph.links);
+            force.start();
+
+            var link = svg.selectAll(".link")
+                .data(graph.links)
+                .enter().append("line")
+                .attr("class", "link")
+                .style("stroke-width", function(d) {
+                    return Math.sqrt(d.weight);
+                });
+
+            var node = svg.selectAll(".node")
+                .data(graph.nodes)
+                .enter().append("g")
+                .attr("class", "node")
+                .attr("transform", function(d) {
+                    return "translate(" + d.x + "," + d.y + ")";
+                });
+
+            node
+                .append("path")
+                .attr("d", d3.svg.symbol()
+                    .type(function(d) {
+                        return shape(d);
+                    })
+                    .size(function(d) {
+                        //TODO use a scale
+                        return nodesize(d.rank);
+                    }))
+                .on("click", click)
+                .style("fill", function(d) {
+                    return color(d.frequency);
+                });
+
+
+            node.append("text")
+                .attr("class", "label")
+                .text(function(d) {
+                    return d.name;
+                });
+            node.call(force.drag);
+
+            force.on("tick", function(e) {
+                link.attr("x1", function(d) {
+                    return d.source.x;
+                })
+                    .attr("y1", function(d) {
+                        return d.source.y;
+                    })
+                    .attr("x2", function(d) {
+                        return d.target.x;
+                    })
+                    .attr("y2", function(d) {
+                        return d.target.y;
+                    });
+                node
+                    .attr("transform", function(d) {
+                        return "translate(" + d.x + "," + d.y + ")";
+                    });
+            });
+
+
+            //left side
+            entities = graph.nodes.sort(function(a, b) {
+                if (a.frequency > b.frquency) {
+                    return 1;
+                }
+                if (a.frequency < b.frquency) {
+                    return -1;
+                }
+                return 0;
+            });
+
+            //            var barWidth = 150,
+            var barHeight = 20;
+
+            var x = d3.scale.linear()
+                .domain([0, d3.max(entities, function(d) {
+                    return d.frequency
+                })])
+                .range([0, 150]);
+
+            var chart = d3.select(".chart");
+            //                .attr("width", width)
+            //                .attr("height", barHeight * entities.length);
+
+            var bar = chart.selectAll("g")
+                .data(entities)
+                .enter().append("g")
+                .attr("transform", function(d, i) {
+                    return "translate(0," + i * barHeight + ")";
+                });
+
+            bar.append("text")
+                .text(function(d) {
+                    return d.name
+                });
+
+            bar.append("rect")
+                .attr("width", function(d) {
+                    return x(d.frequency);
+                })
+                .attr("height", barHeight - 1);
+
+            bar.append("text")
+                .attr("x", function(d) {
+                    return x(d.frequency) - 3;
+                })
+                .attr("y", barHeight / 2)
+                .attr("dy", ".35em")
+                .text(function(d) {
+                    return d.frequency;
+                });
+
+        });
+    </script>
+
