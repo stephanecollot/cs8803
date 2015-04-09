@@ -3,14 +3,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 class Entity(object):
-  type = ""
-  string = ""
-  
-  def __init__(self, type, string):
+  def __init__(self, name, type):
     #logger.info('Entity' + str(string))
-    
-    self.type = type
-    self.string = string
+    self.name = name      # Entity value, String
+    self.type = type      # Entity type from NLP, String
   
 class Document(object):
   content = ""
@@ -24,6 +20,9 @@ class Document(object):
     self.content = unicode(content, 'ISO-8859-1')
     self.id = id
     self.fileName = fileName
+    #Debug
+    self.entities.append(Entity('date','10/120/2014'))
+    self.entities.append(Entity('name','Stephane'))
     
   def toJSON(self):
     return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
