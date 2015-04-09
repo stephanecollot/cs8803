@@ -40,7 +40,7 @@
         text-anchor="middle";
     }
     .chart rect {
-        fill: grey;
+        fill: lightgray;
     }
     .chart text.num {
         fill: white;
@@ -178,18 +178,19 @@
             /*
             left side
             */
-            entities = graph.nodes.sort(function(a, b) {
-                if (a.frequency > b.frquency) {
+            var entities = graph.nodes;
+            entities.sort(function(a, b) {
+                if (a.frequency > b.frequency) {
                     return 1;
                 }
-                if (a.frequency < b.frquency) {
+                if (a.frequency < b.frequency) {
                     return -1;
                 }
                 return 0;
-            });
+            }).reverse();
 
             //            var barWidth = 150,
-            var barHeight = 20;
+            var barHeight = 22;
 
             var x = d3.scale.linear()
                 .domain([0, d3.max(entities, function(d) {
@@ -208,12 +209,18 @@
                     return "translate(0," + i * barHeight + ")";
                 });
 
+            /*
+            TODO truncate with tooltip names longer than 100px
+            */
+            var namewidth = 105;
             bar.append("text")
                 .text(function(d) {
                     return d.name
-                });
+                })
+                .attr("dy", ".75em");
 
             bar.append("rect")
+                .attr("x", namewidth)
                 .attr("width", function(d) {
                     return x(d.frequency);
                 })
@@ -222,7 +229,7 @@
             bar.append("text")
                 .attr("class", "num")
                 .attr("x", function(d) {
-                    return x(d.frequency) - 3;
+                    return x(d.frequency) + namewidth - 3;
                 })
                 .attr("y", barHeight / 2)
                 .attr("dy", ".35em")
