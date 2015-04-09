@@ -10,6 +10,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from serializers import DocumentSerializer
+import json
 
 import logging
 logger = logging.getLogger(__name__)
@@ -35,9 +36,21 @@ class DocumentViewSet(APIView):
     print "["+str(id)+"]"
 
     # Any URL parameters get passed in **kw
-    myClass = settings.GLOBAL_LOAD.docList.docs[id]
-    print myClass.fileName
-    result = myClass.toJSON()
+    doc = settings.GLOBAL_LOAD.docList.docs[id]
+    print doc.fileName
+    result = doc.toJSON()
     print result + "qsf"
+    response = Response(result, status=status.HTTP_200_OK)
+    return response
+    
+class GraphViewSet(APIView):
+
+  def get(self, request, *args, **kw):
+    nodes = settings.GLOBAL_LOAD.nodes
+    links = settings.GLOBAL_LOAD.links
+
+    graph = [nodes, links]
+    result = json.dumps(graph)
+    print result
     response = Response(result, status=status.HTTP_200_OK)
     return response

@@ -13,4 +13,5 @@ urlpatterns += patterns('',
   }),
   url(r'^api/v1.0/document/(?P<id>\d+)[/]?$', views.DocumentViewSet.as_view(), name='document_viewset'),
   url(r'^api/v1.0/document[/]?$', views.DocumentViewSet.as_view(), name='document_viewset'),
+  url(r'^api/v1.0/graph[/]?$', views.GraphViewSet.as_view(), name='graph_viewset'),
 )

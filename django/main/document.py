@@ -2,10 +2,21 @@ import json
 import logging
 logger = logging.getLogger(__name__)
 
+class Entity(object):
+  type = ""
+  string = ""
+  
+  def __init__(self, type, string):
+    #logger.info('Entity' + str(string))
+    
+    self.type = type
+    self.string = string
+  
 class Document(object):
   content = ""
   id = 0
   fileName = ""
+  entities = [] # list of entitie
 
   def __init__(self, content, id, fileName):
     #logger.info('Doc' + str(id))

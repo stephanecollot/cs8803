@@ -2,6 +2,7 @@ import glob
 import os
 
 from document import Document, DocumentList
+import graph
 
 import logging
 logger = logging.getLogger(__name__)
@@ -9,6 +10,8 @@ logger = logging.getLogger(__name__)
 class GlobalLoad:
   ready = False
   docList = DocumentList()
+  nodes = ()
+  links = ()
 
   def __init__(self):
     logger.info('GlobalLoad init ++++++++')
@@ -32,4 +35,7 @@ class GlobalLoad:
     
     logger.info('GlobalLoad init --------')
     self.ready = True
-
+    
+    
+  def getGraph(self):
+    logger.info('getGraph')
