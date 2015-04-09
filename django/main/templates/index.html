@@ -4,20 +4,20 @@
     #left {
         line-height: 30px;
         background-color: #eeeeee;
-        height: 500px;
+        height: 700px;
         width: 300px;
         float: left;
         padding: 5px;
     }
     #center {
         width: 700px;
-        height: 500px;
+        height: 700px;
         float: left;
         padding: 10px;
     }
     #right {
         width: 300px;
-        height: 500px;
+        height: 700px;
         float: left;
         padding: 5px;
     }
@@ -52,6 +52,7 @@
 
 <body>
     <div id="left">
+        <h3>Entities</h3>
         <svg id="leftcanvas" />
     </div>
     <div id="center">
@@ -65,9 +66,12 @@
     <script src=s/d3/colorbrewer.js></script>
     <script>
         var width = 700,
-            height = 500;
+            height = 700;
 
-        var color = d3.scale.ordinal().range(colorbrewer.Blues[5]);
+        var peoplecolor = d3.scale.ordinal().range(colorbrewer.Blues[4]);
+        var orgcolor = d3.scale.ordinal().range(colorbrewer.Reds[4]);
+        var placecolor = d3.scale.ordinal().range(colorbrewer.Greys[4]);
+        var usercolor = d3.scale.ordinal().range(colorbrewer.YlOrBr[4]);
 
         var force = d3.layout.force()
             .charge(-120)
@@ -89,16 +93,16 @@
         .attr("width", 300)
             .attr("height", height);
 
-        function shape(node) {
-            switch (node.type) {
-                case 0: //person
-                    return "circle";
-                case 1: //org
-                    return "square";
-                case 2: //other?
-                    return "diamond";
-            }
-        }
+//        function shape(node) {
+//            switch (node.type) {
+//                case 0: //person
+//                    return "circle";
+//                case 1: //org
+//                    return "square";
+//                case 2: //other?
+//                    return "diamond";
+//            }
+//        }
 
         function click(d) {
             d.fixed = !d.fixed;
@@ -109,7 +113,7 @@
                 .domain([0, d3.max(graph.nodes, function(d) {
                     return d.rank;
                 })])
-                .range([500, 1500]);
+                .range([5, 15]);
 
             force
                 .nodes(graph.nodes)
@@ -126,25 +130,25 @@
 
             var node = svg.selectAll(".node")
                 .data(graph.nodes)
-                .enter().append("g")
-                .attr("class", "node")
-                .attr("transform", function(d) {
-                    return "translate(" + d.x + "," + d.y + ")";
-                });
+                .enter().append("g");
 
             node
-                .append("path")
-                .attr("d", d3.svg.symbol()
-                    .type(function(d) {
-                        return shape(d);
-                    })
-                    .size(function(d) {
-                        //TODO use a scale
-                        return nodesize(d.rank);
-                    }))
-                .on("click", click)
+                .append("circle")
+                .attr("class", "node")
+                .attr("r", function(d) {
+                    return nodesize(d.rank);
+                })
+                 .on("click", click)
                 .style("fill", function(d) {
-                    return color(d.frequency);
+                    switch (d.type) {
+                        case 0: //person
+                            return peoplecolor(d.frequency);
+                        case 1: //org
+                            return orgcolor(d.frequency);
+                        case 2: //place?
+                            return placecolor(d.frequency);
+
+                    }
                 });
 
 
@@ -212,7 +216,7 @@
             /*
             TODO truncate with tooltip names longer than 100px
             */
-            var namewidth = 105;
+            var namewidth = 140;
             bar.append("text")
                 .text(function(d) {
                     return d.name
