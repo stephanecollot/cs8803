@@ -46,6 +46,7 @@ class DocumentViewSet(APIView):
 class GraphViewSet(APIView):
 
   def get(self, request, *args, **kw):
+    settings.GLOBAL_LOAD.computeGraph()
     nodes = settings.GLOBAL_LOAD.nodes
     links = settings.GLOBAL_LOAD.links
 

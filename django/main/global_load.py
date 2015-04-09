@@ -37,5 +37,10 @@ class GlobalLoad:
     self.ready = True
     
     
-  def getGraph(self):
+  def computeGraph(self):
     logger.info('getGraph')
+    
+    
+    self.nodes = ()
+    self.links = ()
+    
