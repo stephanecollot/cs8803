@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
+    #left {
+        line-height: 30px;
+        background-color: #eeeeee;
+        height: 500px;
+        width: 300px;
+        float: left;
+        padding: 5px;
+    }
+    #center {
+        width: 700px;
+        height: 500px;
+        float: left;
+        padding: 10px;
+    }
+    #right {
+        width: 300px;
+        height: 500px;
+        float: left;
+        padding: 5px;
+    }
     .node {
         stroke: black;
         stroke-width: 1.5px;
@@ -20,9 +40,9 @@
         text-anchor="middle";
     }
     .chart rect {
-        fill: steelblue;
+        fill: grey;
     }
-    .chart text {
+    .chart text.num {
         fill: white;
         font: 10px sans-serif;
         text-anchor: end;
@@ -31,6 +51,16 @@
 </style>
 
 <body>
+    <div id="left">
+        <svg id="leftcanvas" />
+    </div>
+    <div id="center">
+        <svg id="graphcanvas" />
+    </div>
+    <div id="right">
+        <!-- TODO text file search -->
+    </div>
+
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src=s/d3/colorbrewer.js></script>
     <script>
@@ -44,12 +74,12 @@
             .linkDistance(125)
             .size([width, height]);
 
-        var leftsvg = d3.select("body").append("svg")
+        var leftsvg = d3.select("#leftcanvas")
             .attr("width", 300)
             .attr("height", height)
             .attr("class", "chart");
 
-        var svg = d3.select("body").append("svg")
+        var svg = d3.select("#graphcanvas")
             .attr("width", width)
             .attr("height", height);
 
@@ -145,7 +175,9 @@
             });
 
 
-            //left side
+            /*
+            left side
+            */
             entities = graph.nodes.sort(function(a, b) {
                 if (a.frequency > b.frquency) {
                     return 1;
@@ -188,6 +220,7 @@
                 .attr("height", barHeight - 1);
 
             bar.append("text")
+                .attr("class", "num")
                 .attr("x", function(d) {
                     return x(d.frequency) - 3;
                 })
