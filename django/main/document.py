@@ -9,11 +9,6 @@ class Entity(object):
     self.type = type      # Entity type from NLP, String
   
 class Document(object):
-  content = ""
-  id = 0
-  fileName = ""
-  entities = [] # list of entitie
-
   def __init__(self, content, id, fileName):
     #logger.info('Doc' + str(id))
     
@@ -21,18 +16,19 @@ class Document(object):
     self.id = id
     self.fileName = fileName
     #Debug
+    self.entities = []
     self.entities.append(Entity('date','10/120/2014'))
     self.entities.append(Entity('name','Stephane'))
+    self.entities.append(Entity('name','Jason'))
     
   def toJSON(self):
     return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
 
     
 class DocumentList:
-  docs = []
-
   def __init__(self):
     logger.info('Doc List')
+    self.docs = []
     
   def addDoc(self, content, fileName):
     doc = Document(content, len(self.docs), fileName)

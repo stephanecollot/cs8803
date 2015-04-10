@@ -53,10 +53,12 @@ class GlobalLoad:
     print "len1: " + str(len(allNodes))
     seen = set()
     uniqueNodes = []
+    nodeLookUp = {}
     for node in allNodes:
         identifier = node.name + node.type
         if identifier not in seen:
             uniqueNodes.append(node)
+            nodeLookUp[identifier] = len(uniqueNodes)-1
             seen.add(identifier)
     print "uniqueNodes: " + str(len(uniqueNodes))
     
@@ -67,14 +69,30 @@ class GlobalLoad:
     #Todo Update rank and frequency of Nodes ...
     
     #Create links
-    links = []
+    linksDict = {}
     for doc in self.docList.docs:
       for i in range(len(doc.entities)):
+        id1 = doc.entities[i].name + doc.entities[i].type
         for j in range(i+1, len(doc.entities)):
-          #links.append(Link(i,j)) # need a loop up table
+          id2 = doc.entities[j].name + doc.entities[j].type
+          if nodeLookUp[id1] < nodeLookUp[id2]:
+            if (nodeLookUp[id1],nodeLookUp[id2]) in linksDict:
+              linksDict[(nodeLookUp[id1],nodeLookUp[id2])] += 1
+            else:
+              linksDict[(nodeLookUp[id1],nodeLookUp[id2])] = 1
+          else:
+            if (nodeLookUp[id2],nodeLookUp[id1]) in linksDict:
+              linksDict[(nodeLookUp[id2],nodeLookUp[id1])] += 1
+            else:
+              linksDict[(nodeLookUp[id2],nodeLookUp[id1])] = 1
           pass
 
-
+    print linksDict
+    
+    links = []
+    for k, v in linksDict.viewitems():
+      links.append(Link(k[0],k[1],v))
+    print "done"
     
     self.nodes = uniqueNodes
     self.links = links
