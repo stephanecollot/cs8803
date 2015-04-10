@@ -40,7 +40,7 @@ class DocumentViewSet(APIView):
     print doc.fileName
     result = doc.toJSON()
     print result + "qsf"
-    response = Response(result, status=status.HTTP_200_OK)
+    response = HttpResponse(result, content_type='application/json')
     return response
     
 class GraphViewSet(APIView):
@@ -50,8 +50,11 @@ class GraphViewSet(APIView):
     nodes = settings.GLOBAL_LOAD.nodes
     links = settings.GLOBAL_LOAD.links
 
-    graph = [nodes, links]
-    result = json.dumps(graph)
+    result = '{ "nodes": '
+    result += json.dumps([ob.__dict__ for ob in nodes])
+    result += ', "links": '
+    result += json.dumps([ob.__dict__ for ob in links])
+    result += '} '
     print result
-    response = Response(result, status=status.HTTP_200_OK)
+    response = HttpResponse(result, content_type='application/json')
     return response
