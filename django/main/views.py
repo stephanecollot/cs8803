@@ -41,6 +41,7 @@ class DocumentViewSet(APIView):
     result = doc.toJSON()
     print result + "qsf"
     response = Response(result, status=status.HTTP_200_OK)
+    response.__setitem__("Access-Control-Allow-Origin", "*") #enables CORS (required to use json)
     return response
     
 class GraphViewSet(APIView):
