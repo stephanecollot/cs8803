@@ -1,0 +1,23 @@
+Arsenic FactSheet (Inorganic)
+
+Clinical description
+Acute ingestion of toxic amounts of inorganic arsenic typically causes severe gastrointestinal signs and symptoms (e.g., vomiting, abdominal pain, and diarrhea). These signs and symptoms might rapidly lead to dehydration and shock. Different clinical manifestations might follow, including dysrhythmias (prolonged QT, T-wave changes), altered mental status, and multisystem organ failure that might ultimately result in death (1-4).
+
+Laboratory criteria for diagnosis
+•	Biologic: A case in which elevated urinary arsenic levels (>50 µg/L for a spot or >50 µg total for a 24-hour urine) exist, as determined by commercial laboratory tests. Speciation is required in all cases where total urine arsenic is elevated to differentiate the amount of organic and inorganic arsenic. 
+-OR- 
+•	Environmental: Detection of arsenic in environmental samples above typical background levels, as determined by NIOSH or FDA. 
+
+Case classification
+•	Suspected: A case in which a potentially exposed person is being evaluated by health-care workers or public health officials for poisoning by a particular chemical agent, but no specific credible threat exists. 
+•	Probable: A clinically compatible case in which a high index of suspicion (credible threat or patient history regarding location and time) exists for arsenic exposure, or an epidemiologic link exists between this case and a laboratory-confirmed case. 
+•	Confirmed: A clinically compatible case in which laboratory tests have confirmed exposure. 
+
+The case can be confirmed if laboratory testing was not performed because either a predominant amount of clinical and nonspecific laboratory evidence of a particular chemical was present or a 100% certainty of the etiology of the agent is known.
+
+Additional resources
+•	Ford M. Arsenic. In: Goldfrank LR, Flomenbaum NE, Lewin NA, Howland MA, Hoffman RS, Nelson LS, eds. Goldfrank's toxicologic emergencies. 7th ed. New York, NY: McGraw-Hill; 2002:1183-95. 
+•	Bolliger CT, van Zijl P, Louw JA. Multiple organ failure with the adult respiratory distress syndrome in homicidal arsenic poisoning. Respiration 1992;59:57--61. 
+•	Civantos DP, Lopez RA, Aguado-Borruey JM, Narvaez JA. Fulminant malignant arrhythmia and multiorgan failure in acute arsenic poisoning. Chest 1995;108:1774--5. 
+•	Heyman A, Pfeiffer JB Jr, Willett RW, Taylor HM. Peripheral neuropathy caused by arsenical intoxication. A study of 41 cases with observations on the effects of BAL (2,3 dimercapto-propanol). N Engl J Med 1956;254:401-9. 
+ 
