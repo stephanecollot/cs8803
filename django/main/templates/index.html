@@ -1,62 +1,72 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<style>
-    h3 {
-        padding: none;
-        margin-bottom: 0px;
-        margin-top: 0px;
+
+<head>
+    <style>
+        h3 {
+            padding: none;
+            margin-bottom: 0px;
+            margin-top: 0px;
+        }
+        #left {
+            line-height: 30px;
+            background-color: #eeeeee;
+            height: 700px;
+            width: 300px;
+            float: left;
+            padding: 5px;
+        }
+        #center {
+            width: 630px;
+            height: 700px;
+            float: left;
+            padding: 10px;
+        }
+        #right {
+            line-height: 30px;
+            background-color: #eeeeee;
+            width: 280px;
+            height: 700px;
+            float: left;
+            padding: 5px;
+        }
+        .node {
+            stroke: black;
+            stroke-width: 1.5px;
+        }
+        .node.user {
+            stroke: black;
+            stroke-width: 2.5px;
+        }
+        .node.fixed {
+            stroke-width: 2.5px;
+            stroke: #2c7fb8;
+        }
+        .link {
+            stroke: #999;
+            stroke-opacity: .6;
+        }
+        .label {
+            stroke-width: 0;
+            font-family="sans-serif";
+            font-size="20px";
+            text-anchor="middle";
+        }
+        .chart rect {} .chart text.num {
+            fill: white;
+            font: 10px sans-serif;
+            text-anchor: end;
+        }
+        .insight {
+            font-size: 0.7em;
+        }
+        #result a {
+            font-size: 0.8em;
+        }
     }
-    #left {
-        line-height: 30px;
-        background-color: #eeeeee;
-        height: 700px;
-        width: 300px;
-        float: left;
-        padding: 5px;
-    }
-    #center {
-        width: 700px;
-        height: 700px;
-        float: left;
-        padding: 10px;
-    }
-    #right {
-        line-height: 30px;
-        background-color: #eeeeee;
-        width: 300px;
-        height: 700px;
-        float: left;
-        padding: 5px;
-    }
-    .node {
-        stroke: black;
-        stroke-width: 1.5px;
-    }
-    .node.user {
-        stroke: black;
-        stroke-width: 2.5px;
-    }
-    .node.fixed {
-        stroke-width: 2.5px;
-        stroke: #2c7fb8;
-    }
-    .link {
-        stroke: #999;
-        stroke-opacity: .6;
-    }
-    .label {
-        stroke-width: 0;
-        font-family="sans-serif";
-        font-size="20px";
-        text-anchor="middle";
-    }
-    .chart rect {} .chart text.num {
-        fill: white;
-        font: 10px sans-serif;
-        text-anchor: end;
-    }
-}
-</style>
+    </style>
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8000/s/entities.css">
+</head>
 
 <body>
     <div id="left">
@@ -69,9 +79,13 @@
         <svg id="graphcanvas" />
     </div>
     <div id="right">
-        <!-- TODO text file search -->
+        <input type="text" id="search" />
+        <div id="result">
+        </div>
     </div>
 
+    <script src="s/jquery.min.js"></script>
+    <script src="s/search.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src=s/d3/colorbrewer.js></script>
     <script>
@@ -90,7 +104,7 @@
             .size([width, height]);
 
         var nodesize = d3.scale.linear();
-        
+
         var leftsvg = d3.select("#leftcanvas")
             .attr("width", 300)
             .attr("height", height - 75)
@@ -146,19 +160,19 @@
         }
 
         function restart() {
+            force.start();
             var links = force.links(),
                 nodes = force.nodes();
-            
+
             var link = svg.selectAll(".link").data(links);
 
             link.enter().insert("line", ".node")
                 .attr("class", "link");
 
-            var node = svg.selectAll(".node").data(nodes);
+            var node = svg.selectAll(".node").data(nodes).enter().append("g").attr("class", "node");
 
-            var nnode = node.enter().insert("g");
-            nnode.append("circle", ".cursor")
-                .attr("class", "node")
+
+            node.append("circle")
                 .attr("r", function(d) {
                     return nodesize(d.rank);
                 })
@@ -167,7 +181,7 @@
                     return color(d);
                 });
 
-            nnode.append("text")
+            node.append("text")
                 .attr("class", "label")
                 .text(function(d) {
                     return d.name;
@@ -175,7 +189,6 @@
 
             node.call(force.drag);
 
-            force.start();
         }
 
         function color(d) {
@@ -193,50 +206,21 @@
         }
          //d3.json("/api/v1.0/graph?format=json", function(error, graph) {
         d3.json("s/fake_data.json", function(error, graph) {
-            
-                nodesize.domain([0, d3.max(graph.nodes, function(d) {
-                    return d.rank;
-                })])
+
+            nodesize.domain([0, d3.max(graph.nodes, function(d) {
+                return d.rank;
+            })])
                 .range([10, 25]);
 
             force
                 .nodes(graph.nodes)
                 .links(graph.links);
-            force.start();
 
-
-            var link = svg.selectAll(".link")
-                .data(graph.links)
-                .enter().append("line")
-                .attr("class", "link")
-                .style("stroke-width", function(d) {
-                    return Math.sqrt(d.weight);
-                });
-
-            var node = svg.selectAll(".node")
-                .data(graph.nodes)
-                .enter().append("g");
-
-            node
-                .append("circle")
-                .attr("class", "node")
-                .attr("r", function(d) {
-                    return nodesize(d.rank);
-                })
-                .on("click", fixNode)
-                .style("fill", function(d) {
-                    return color(d);
-                });
-
-
-            node.append("text")
-                .attr("class", "label")
-                .text(function(d) {
-                    return d.name;
-                });
-            node.call(force.drag);
-
+            restart();
             force.on("tick", function(e) {
+                var link = svg.selectAll(".link");
+                var node = svg.selectAll(".node");
+
                 link.attr("x1", function(d) {
                     return d.source.x;
                 })
@@ -296,11 +280,7 @@ and http://bl.ocks.org/mbostock/929623
             svg //.on("mousemove", mousemove)
             .on("dblclick", addNode);
 
-            //            function mousemove() {
-            //                cursor.attr("transform", "translate(" + d3.mouse(this) + ")");
-            //            }
-
-
+ 
 
             /**
              **/

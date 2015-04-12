@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8000/s/entities.css">
+  <style>
+  .insight {
+    font-size: 0.8em;
+  }
+  </style>
+</head>
+
+<h1>Test ajax</h1>
+
+<input type="text" id="search"/>
+<!-- <input type="button" value="Search" id="searchButton" onClick="search()"> -->
+
+<div id="result">
+</div>
+
+<script src="s/jquery.min.js"></script>
+<script>
+/*
+alert("Let's go");
+$.ajax({
+	url: "http://127.0.0.1:8000/api/v1.0/document/0?format=json",
+	crossDomain: true,
+	method: "GET",
+	dataType: 'json',
+	success: function(data) { alert("Received"); console.log(data); }
+});
+*/
+</script>
+
+<script>
+$('#search').on('input', function() {
+  var text = $("#search").val();
+  if(text != "") {
+    $.ajax({
+		  url: "http://127.0.0.1:8000/search/" + text,
+		  crossDomain:true,
+		  method: "GET",
+		  dataType: 'json',
+		  success: function(data) { add(data); }
+	  });
+  }
+  else {
+    $("#result").empty();
+  }
+});
+
+function add(data) {
+  //alert("Response received");
+  console.log(data);
+  var result = $("#result");
+  result.empty();
+  for(var i=0; i<data.length; i++) {
+    result.append('<a href="#" onClick="openDocument('+data[i][0]+')">' + data[i][1] + '</a><br>');
+    result.append('<span class="insight">' + data[i][2] + '</span><br>');
+    //result.append("Lol<br>");
+  }
+}
+
+function search() {
+  var text = $("#search").val();
+  //alert("Let's search " + text);
+  $.ajax({
+		url: "http://127.0.0.1:8000/search/" + text,
+		crossDomain:true,
+		method: "GET",
+		dataType: 'json',
+		success: function(data) { add(data); }
+	});
+}
+
+function openDocument(id) {
+  window.open('http://127.0.0.1:8000/document/' + id, 'newwindow', 'width=300, height=300, scrollbars=1');
+  //window.open('test.txt', 'newwindow', 'width=300, height=300, scrollbars=1');
+}
+</script>

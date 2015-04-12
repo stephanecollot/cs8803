@@ -5,6 +5,8 @@ from django.conf import settings
 
 urlpatterns = patterns('',
   url(r'^$', views.index, name='index'),
+  url(r'^search/(?P<text>.*)$', views.search, name='search'),
+  url(r'^document/(?P<id>\d+)$', views.openDocument, name='openDocument'),
 )
 
 urlpatterns += patterns('',
