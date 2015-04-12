@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
+    h3 {
+        padding: none;
+        margin-bottom: 0px;
+        margin-top: 0px;
+    }
     #left {
         line-height: 30px;
         background-color: #eeeeee;
@@ -16,7 +21,7 @@
         padding: 10px;
     }
     #right {
-	line-height: 30px;
+        line-height: 30px;
         background-color: #eeeeee;
         width: 300px;
         height: 700px;
@@ -26,6 +31,10 @@
     .node {
         stroke: black;
         stroke-width: 1.5px;
+    }
+    .node.user {
+        stroke: black;
+        stroke-width: 2.5px;
     }
     .node.fixed {
         stroke-width: 2.5px;
@@ -41,9 +50,7 @@
         font-size="20px";
         text-anchor="middle";
     }
-    .chart rect {
-     }
-    .chart text.num {
+    .chart rect {} .chart text.num {
         fill: white;
         font: 10px sans-serif;
         text-anchor: end;
@@ -55,6 +62,8 @@
     <div id="left">
         <h3>Entities</h3>
         <svg id="leftcanvas" />
+        <input type="text" id="node_text" width="260" />
+        <button name="addNode" onclick="addNode">Add</button>
     </div>
     <div id="center">
         <svg id="graphcanvas" />
@@ -69,19 +78,22 @@
         var width = 700,
             height = 700;
 
-        var peoplecolor = "rgb(107, 174, 214)";//d3.scale.ordinal().range(colorbrewer.Blues[4]);
-        var orgcolor = "rgb(150, 150, 150)";//d3.scale.ordinal().range(colorbrewer.Reds[4]);
-        var placecolor = "rgb(161, 217, 155)";//d3.scale.ordinal().range(colorbrewer.Greys[4]);
-        var usercolor = "rgb(254, 227, 145)";//d3.scale.ordinal().range(colorbrewer.YlOrBr[4]);
+        var peoplecolor = "#9ecae1"; //d3.scale.ordinal().range(colorbrewer.Blues[4]);
+        var orgcolor = "#bdbdbd"; //d3.scale.ordinal().range(colorbrewer.Reds[4]);
+        var placecolor = "#a1d99b"; //d3.scale.ordinal().range(colorbrewer.Greys[4]);
+        var usercolor = "#ffeda0"; //d3.scale.ordinal().range(colorbrewer.YlOrBr[4]);
 
         var force = d3.layout.force()
+            .gravity(0.15)
             .charge(-120)
             .linkDistance(125)
             .size([width, height]);
 
+        var nodesize = d3.scale.linear();
+        
         var leftsvg = d3.select("#leftcanvas")
             .attr("width", 300)
-            .attr("height", height)
+            .attr("height", height - 75)
             .attr("class", "chart");
 
         var svg = d3.select("#graphcanvas")
@@ -94,44 +106,104 @@
         .attr("width", 300)
             .attr("height", height);
 
-         //        function shape(node) {
-         //            switch (node.type) {
-         //                case 0: //person
-         //                    return "circle";
-         //                case 1: //org
-         //                    return "square";
-         //                case 2: //other?
-         //                    return "diamond";
-         //            }
-         //        }
 
-        function click(d) {
+        function fixNode(d) {
             d.fixed = !d.fixed;
             d3.select(this).classed("fixed", d.fixed);
         }
 
+        function addNode() {
+            var nodes = force.nodes()
+            var nodeId = d3.max(nodes, function(d) {
+                return d.id;
+            })
+            var nname = document.getElementById('node_text').value
+            var point = d3.mouse(this),
+                node = {
+                    x: point[0],
+                    y: point[1],
+                    type: "user",
+                    id: nodeId,
+                    rank: 0,
+                    frequency: 0,
+                    name: nname
+                },
+                n = nodes.push(node);
+
+            // add links to any nearby nodes
+            //                nodes.forEach(function(target) {
+            //                    var x = target.x - node.x,
+            //                        y = target.y - node.y;
+            //                    if (Math.sqrt(x * x + y * y) < 30) {
+            //                        links.push({
+            //                            source: node,
+            //                            target: target
+            //                        });
+            //                    }
+            //                });
+
+            restart();
+        }
+
+        function restart() {
+            var links = force.links(),
+                nodes = force.nodes();
+            
+            var link = svg.selectAll(".link").data(links);
+
+            link.enter().insert("line", ".node")
+                .attr("class", "link");
+
+            var node = svg.selectAll(".node").data(nodes);
+
+            var nnode = node.enter().insert("g");
+            nnode.append("circle", ".cursor")
+                .attr("class", "node")
+                .attr("r", function(d) {
+                    return nodesize(d.rank);
+                })
+                .on("click", fixNode)
+                .style("fill", function(d) {
+                    return color(d);
+                });
+
+            nnode.append("text")
+                .attr("class", "label")
+                .text(function(d) {
+                    return d.name;
+                });
+
+            node.call(force.drag);
+
+            force.start();
+        }
+
         function color(d) {
             switch (d.type) {
-                case 0: //person
-                     return peoplecolor;
-                case 1: //org
+                case "person": //person
+                    return peoplecolor;
+                case "organization": //org
                     return orgcolor;
-                case 2: //place?
+                case "location": //place?
                     return placecolor;
+                case "user":
+                    return usercolor;
 
             }
         }
+         //d3.json("/api/v1.0/graph?format=json", function(error, graph) {
         d3.json("s/fake_data.json", function(error, graph) {
-            var nodesize = d3.scale.linear()
-                .domain([0, d3.max(graph.nodes, function(d) {
+            
+                nodesize.domain([0, d3.max(graph.nodes, function(d) {
                     return d.rank;
                 })])
-                .range([5, 15]);
+                .range([10, 25]);
 
             force
                 .nodes(graph.nodes)
                 .links(graph.links);
             force.start();
+
 
             var link = svg.selectAll(".link")
                 .data(graph.links)
@@ -151,7 +223,7 @@
                 .attr("r", function(d) {
                     return nodesize(d.rank);
                 })
-                .on("click", click)
+                .on("click", fixNode)
                 .style("fill", function(d) {
                     return color(d);
                 });
@@ -177,13 +249,61 @@
                     .attr("y2", function(d) {
                         return d.target.y;
                     });
+
                 node
                     .attr("transform", function(d) {
                         return "translate(" + d.x + "," + d.y + ")";
                     });
             });
 
+            /**
+Editable graph.  Code borrowed liberally from : http://bl.ocks.org/rkirsling/5001347
+and http://bl.ocks.org/mbostock/929623
+**/
 
+            // define arrow markers for graph links
+            //            svg.append('svg:defs').append('svg:marker')
+            //                .attr('id', 'end-arrow')
+            //                .attr('viewBox', '0 -5 10 10')
+            //                .attr('refX', 6)
+            //                .attr('markerWidth', 3)
+            //                .attr('markerHeight', 3)
+            //                .attr('orient', 'auto')
+            //                .append('svg:path')
+            //                .attr('d', 'M0,-5L10,0L0,5')
+            //                .attr('fill', '#000');
+            //
+            //            svg.append('svg:defs').append('svg:marker')
+            //                .attr('id', 'start-arrow')
+            //                .attr('viewBox', '0 -5 10 10')
+            //                .attr('refX', 4)
+            //                .attr('markerWidth', 3)
+            //                .attr('markerHeight', 3)
+            //                .attr('orient', 'auto')
+            //                .append('svg:path')
+            //                .attr('d', 'M10,-5L0,0L10,5')
+            //                .attr('fill', '#000');
+            //
+            //            // line displayed when dragging new nodes
+            //            var drag_line = svg.append('svg:path')
+            //                .attr('class', 'link dragline hidden')
+            //                .attr('d', 'M0,0L0,0');
+            //
+            //            // handles to link and node element groups
+            //            var path = svg.append('svg:g').selectAll('path'),
+            //                circle = svg.append('svg:g').selectAll('g');
+
+            svg //.on("mousemove", mousemove)
+            .on("dblclick", addNode);
+
+            //            function mousemove() {
+            //                cursor.attr("transform", "translate(" + d3.mouse(this) + ")");
+            //            }
+
+
+
+            /**
+             **/
             /*
             left side
             */
