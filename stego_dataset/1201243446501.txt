@@ -1,0 +1,21 @@
+Adamsite FactSheet
+
+(Diphenylaminechloroarsine or DM) 
+
+Clinical description
+The majority of exposures occur by inhalation and typically lead to symptoms of ocular, nasal, and respiratory tract irritation. Nonspecific gastrointestinal symptoms (e.g., vomiting or diarrhea) might also occur. The effects of adamsite poisoning take minutes to begin and might last for hours (1). If a rapid onset of manifestations of one of the following respiratory effects occurs, the clinical description for adamsite poisoning has been met: nose or throat irritation, cough, or dyspnea.
+
+Laboratory criteria for diagnosis
+•	Biologic: No biologic marker is available for adamsite exposure. 
+•	Environmental: No method is available to detect adamsite in environmental samples. 
+
+Case classification
+•	Suspected: A case in which a potentially exposed person is being evaluated by health-care workers or public health officials for poisoning by a particular chemical agent, but no specific credible threat exists. 
+•	Probable: A clinically compatible case in which a high index of suspicion (credible threat or patient history regarding location and time) exists for adamsite exposure, or an epidemiologic link exists between this case and a laboratory-confirmed case. 
+•	Confirmed: A clinically compatible case in which laboratory tests (not available for adamsite) have confirmed exposure. 
+
+The case can be confirmed if laboratory testing was not performed because either a predominant amount of clinical and nonspecific laboratory evidence of a particular chemical was present or a 100% certainty of the etiology of the agent is known.
+
+Additional resources
+1.	Sidell FR. Riot control agents. In: Zajtchuk R, Bellamy RF, eds. Textbook of military medicine: medical aspects of chemical and biological warfare. Washington, DC: Office of the Surgeon General at TMM Publications, Borden Institute, Walter Reed Army Medical Center ; 1997:307-24. 
+ 

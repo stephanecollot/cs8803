@@ -1,0 +1,100 @@
+Stegosaurus Apple Exports Chart
+Date Published to Web: 11/14/2004
+
+Jul 2003-Oct 2004							
+(Metric Tons)	
+						
+	Farms ->							
+	Jul-03		Prado	Rodriquez	Kazuhiri	Varley	Smith	Edwards
+Variety 								
+	Red Delicious 		540	270	210	123	101	105
+	Golden Delicious 		324	162	168	108	114	111
+	Gala				108	54	53	36	35	33
+	Fuji				27	19	13.5	8	9	10
+	Granny Smith 		21.6	10.8	17.8	7.4	7.9	7.8
+	McIntosh 			16.2	8.1	8.2	5.4	5.23	5.18
+	Rome 				10.8	5.4	5.5	3.1	3.11	3.6
+								
+								
+								
+	Aug-03		Prado	Rodriquez	Kazuhiri	Varley	Smith	Edwards
+								
+	Red Delicious 		1890	945	924	630	616	610
+	Golden Delicious 		1134	567	515	379	352	378
+	Gala				378	189	123	118	101	116
+	Fuji				94.5	47.25	47.17	31.4	37	35
+	Granny Smith 		75.6	37.8	35	26	20	25.2
+	McIntosh 			56.7	28.35	28.11	16	12.9	18.9
+	Rome 				37.8	18.9	22	11	12.7	12.6
+								
+								
+								
+	Sep-03		Prado	Rodriquez	Kazuhiri	Varley	Smith	Edwards
+								
+	Red Delicious 		2430	1215	1205	822	807	810
+	Golden Delicious 		1458	729	735	453	482	486
+	Gala				486	243	217	190	166	162
+	Fuji				121.5	60.75	52.75	46.5	31.5	40.5
+	Granny Smith 		97.2	48.6	38.6	25.4	26.4	32.4
+	McIntosh 			72.9	36.45	34.45	34.3	34.3	24.3
+	Rome 				48.6	24.3	27.3	22.2	21.2	16.2
+								
+								
+								
+	Oct-03		Prado	Rodriquez	Kazuhiri	Varley	Smith	Edwards
+								
+	Red Delicious 		540	270	283	173	188	180
+	Golden Delicious 		324	162	192	114	112	108
+	Gala				108	54	57	34	40	36
+	Fuji				27	13.5	18.5	13	18	9
+	Granny Smith 		21.6	10.8	6.8	9.2	11.2	7.2
+	McIntosh 			16.2	8.1	12.1	12.4	8.4	5.4
+	Rome 				10.8	5.4	4.4	2.6	3.61	3.6
+								
+								
+								
+	Jul-04		Prado	Rodriquez	Kazuhiri	Varley	Smith	Edwards
+								
+	Red Delicious 		35.5	532.5	523.5	732	323	355
+	Golden Delicious 		21.3	319.5	367.5	432	201	213
+	Gala				7.1	106.5	122.5	194	76	71
+	Fuji				1.775	26.62	26.62	35.5	17.75	17.75
+	Granny Smith 		1.42	21.3	24.3	28.4	14.2	18.2
+	McIntosh 			2.13	31.95	29.95	42.6	21.3	27.3
+	Rome 				0.71	10.65	9.65	14.2	6.1	7.1
+								
+								
+								
+	Aug-04			Prado		Rodriquez	Kazuhiri	Varley	Smith		Edwards
+								
+	Red Delicious 		3727.5	1863.75	1756.75	2485		1243.5	1242.5
+	Golden Delicious 		2236.5	1118.25	1144.25	1491		745		745.5
+	Gala				745.5		372.75	355.75	497		255.5		248.5
+	Fuji				186.3		93.18		90		124.25	63.12		62.12
+	Granny Smith 		149.1		74.55		66.55		99.4		54.7		49.7
+	McIntosh 			223.65	111.825	119		149.1		74.55		73
+	Rome 				74.55		37.275	39		49.7		29		24.85
+								
+								
+								
+	Sep-04		Prado	Rodriquez	Kazuhiri	Varley	Smith	Edwards
+								
+	Red Delicious 		4792.5	2396.25	2466	3195	1533	1597.5
+	Golden Delicious 		2875.5	1437.75	1435	1917	934	958.5
+	Gala				958.5		479.25	488	639	310	319.5
+	Fuji				239.625	119.8125	113	159.7	73	79.875
+	Granny Smith 		191.7		95.85		92	127.8	70	63.9
+	McIntosh 			287.55	143.775	147.7	191.7	94	95.85
+	Rome 				95.85		47.925	49.95	63.9	38	31.95
+								
+								
+								
+	Oct-04		Prado	Rodriquez	Kazuhiri	Varley	Smith	Edwards
+								
+	Red Delicious 		1065	532.5	558	710	355	323
+	Golden Delicious 		639	319.5	344	426	213	200.55
+	Gala				213	106.5	122	142	71	73.5
+	Fuji				53.25	26.62	22	35.5	17.75	19.75
+	Granny Smith 		42.6	21.3	20	28.4	14.2	15.2
+	McIntosh 			63.9	31.95	36	42.6	21.3	22.3
+	Rome 				21.3	10.65	18.65	14.2	7.1	5
