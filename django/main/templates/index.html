@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<head>
 <style>
     #left {
         line-height: 30px;
@@ -10,15 +11,15 @@
         padding: 5px;
     }
     #center {
-        width: 700px;
+        width: 630px;
         height: 700px;
         float: left;
         padding: 10px;
     }
     #right {
-	line-height: 30px;
+	      line-height: 30px;
         background-color: #eeeeee;
-        width: 300px;
+        width: 280px;
         height: 700px;
         float: left;
         padding: 5px;
@@ -48,8 +49,17 @@
         font: 10px sans-serif;
         text-anchor: end;
     }
+
+    .insight {
+        font-size: 0.7em;
+    }
+    #result a {
+        font-size: 0.8em;
+    }
 }
 </style>
+<link rel="stylesheet" type="text/css" href="http://127.0.0.1:8000/s/entities.css">
+</head>
 
 <body>
     <div id="left">
@@ -60,9 +70,13 @@
         <svg id="graphcanvas" />
     </div>
     <div id="right">
-        <!-- TODO text file search -->
+        <input type="text" id="search"/>
+        <div id="result">
+        </div>
     </div>
 
+    <script src="s/jquery.min.js"></script>
+    <script src="s/search.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script src=s/d3/colorbrewer.js></script>
     <script>

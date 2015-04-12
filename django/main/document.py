@@ -3,7 +3,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 class Entity(object):
-  def __init__(self, name, type):
+  def __init__(self, type, name):
     #logger.info('Entity' + str(string))
     self.name = name      # Entity value, String
     self.type = type      # Entity type from NLP, String
@@ -17,9 +17,13 @@ class Document(object):
     self.fileName = fileName
     #Debug
     self.entities = []
-    self.entities.append(Entity('date','10/120/2014'))
-    self.entities.append(Entity('name','Stephane'))
-    self.entities.append(Entity('name','Jason'))
+    #self.entities.append(Entity('date','10/120/2014'))
+    #self.entities.append(Entity('name','Stephane'))
+    #self.entities.append(Entity('name','Jason'))
+    self.entities.append(Entity('object', 'asparagus'))
+    self.entities.append(Entity('object', 'apple'))
+    self.entities.append(Entity('place', 'Washington'))
+    self.entities.append(Entity('place', 'Alderwood'))
     
   def toJSON(self):
     return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)
@@ -40,12 +44,22 @@ class DocumentList:
     for doc in self.docs:
       #logger.info('Doc Listing' + doc.content)
       pass
-      
+  
+  def get_insight(self, doc, text):
+    index = doc.find(text)
+    size = 20
+    beg = max(0, index - size)
+    end = min(index + size, len(doc))
+    return ("" if beg == 0 else "...") + doc[beg : end] + ("" if end == len(doc) else "...")
+  
   def search(self, text):
-
+    found = []
     for doc in self.docs:
       if text in doc.content:
-        logger.info('Doc id:' + str(doc.id) + ' contains: ' + text)
+        #logger.info('Doc id:' + str(doc.id) + '(' + doc.fileName + ') contains: ' + text)
+        insight = self.get_insight(doc.content, text).replace(text, '<span class="search">' + text + '</span>')
+        found.append((doc.id, doc.fileName, insight))
+    return found
       
   def entityExtraction(self):
     logger.info('entityExtraction +')
