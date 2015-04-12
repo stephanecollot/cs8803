@@ -7,7 +7,8 @@ class Entity(object):
     #logger.info('Entity' + str(string))
     self.name = name      # Entity value, String
     self.type = type      # Entity type from NLP, String
-  
+    self.tfidf = 0.0
+    
 class Document(object):
   def __init__(self, content, id, fileName):
     #logger.info('Doc' + str(id))
