@@ -61,7 +61,7 @@ class GlobalLoad:
         allNodes.append(Node(entity.name, entity.type))
         
     # Get unique Nodes
-    print "len1: " + str(len(allNodes))
+    print "allNodes len: " + str(len(allNodes))
     seen = set()
     uniqueNodes = []
     nodeLookUp = {}
@@ -71,7 +71,7 @@ class GlobalLoad:
             uniqueNodes.append(node)
             nodeLookUp[identifier] = len(uniqueNodes)-1
             seen.add(identifier)
-    print "uniqueNodes: " + str(len(uniqueNodes))
+    print "uniqueNodes len: " + str(len(uniqueNodes))
     
     # Set node's id
     for i in range(len(uniqueNodes)):
@@ -79,7 +79,7 @@ class GlobalLoad:
       
     #Todo Update rank and frequency of Nodes ...
     
-    #Create links
+    #Create links with Weight
     linksDict = {}
     for doc in self.docList.docs:
       for i in range(len(doc.entities)):
@@ -98,12 +98,13 @@ class GlobalLoad:
               linksDict[(nodeLookUp[id2],nodeLookUp[id1])] = 1
           pass
 
-    print linksDict
+    print "linksDict len: " + str(len(linksDict))
     
     links = []
     for k, v in linksDict.viewitems():
       links.append(Link(k[0],k[1],v))
-    print "done"
+    
+    print "links len: " + str(len(links))
     
     self.nodes = uniqueNodes
     self.links = links

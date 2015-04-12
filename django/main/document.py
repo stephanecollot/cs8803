@@ -3,10 +3,10 @@ import logging
 logger = logging.getLogger(__name__)
 
 class Entity(object):
-  def __init__(self, type, name):
-    #logger.info('Entity' + str(string))
-    self.name = name      # Entity value, String
-    self.type = type      # Entity type from NLP, String
+  def __init__(self, name, type):
+    #logger.info('Entity')
+    self.name = name        # Entity value, String
+    self.type = type.strip()# Entity type from NLP, String
     self.tfidf = 0.0
     
 class Document(object):
@@ -18,13 +18,6 @@ class Document(object):
     self.fileName = fileName
     #Debug
     self.entities = []
-    #self.entities.append(Entity('date','10/120/2014'))
-    #self.entities.append(Entity('name','Stephane'))
-    #self.entities.append(Entity('name','Jason'))
-    self.entities.append(Entity('object', 'asparagus'))
-    self.entities.append(Entity('object', 'apple'))
-    self.entities.append(Entity('place', 'Washington'))
-    self.entities.append(Entity('place', 'Alderwood'))
     
   def toJSON(self):
     return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=4)

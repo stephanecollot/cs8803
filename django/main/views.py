@@ -92,6 +92,6 @@ class GraphViewSet(APIView):
     result += ', "links": '
     result += json.dumps([ob.__dict__ for ob in links])
     result += '} '
-    print result
+    #print result
     response = HttpResponse(result, content_type='application/json')
     return response
