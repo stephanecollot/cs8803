@@ -1,11 +1,16 @@
 import glob
 import os
-
+import math
+import numpy as np
+from textblob import TextBlob as tb
 from document import Document, DocumentList, Entity
 from graph import Node, Link
 
 import logging
 logger = logging.getLogger(__name__)
+
+
+
 
 class GlobalLoad:
   ready = False
@@ -40,7 +45,61 @@ class GlobalLoad:
           doc.entities.append(Entity(x[1],x[2]))
     print "done"
 
+    #tf-idf
+    def tf(word,blob):
+      d = blob.lower()
+      return float(d.count(word.lower()))/float(len(d))
+
+    def n_containing(word, bloblist):
+        return sum(1 for blob in bloblist if word.lower() in blob.content.lower())
+
+    def idf(word, bloblist):
+        return float(math.log(float(len(bloblist))/ float(1 + n_containing(word, bloblist))))
+
+    def tfidfunc(word, blob, bloblist):
+      try:
+        return float(tf(word, blob) * idf(word, bloblist))
+      except:
+        return 0
+      #for item in self.docList.docs.entities:
     
+    x = []
+
+    for i in self.docList.docs:
+      for j in i.entities:
+        j.tfidf = tfidfunc(j.name,i.content,self.docList.docs)
+      #  print j.name, j.tfidf
+        x.append(j.tfidf)
+
+    y = np.array(x)
+
+    print "25 percentile"
+    print np.percentile(y,25)
+
+    print "50 percentile"
+    print np.percentile(y,50)
+
+    print "75 percentile"
+    print np.percentile(y,75)
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     #Search test
     #self.docList.search("test")
     
