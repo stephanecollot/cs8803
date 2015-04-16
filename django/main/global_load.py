@@ -80,10 +80,16 @@ class GlobalLoad:
     print np.percentile(y,50)
 
     print "75 percentile"
-    print np.percentile(y,75)
+    foobar90 = np.percentile(y,75)
+    print foobar90
 
-    
+    ct = 0
+    for i in self.docList.docs:
+      for j in i.entities:
+        if j.tfidf>=foobar90:
+          ct = ct+1
 
+    print "Total count of entities >90th percentile" + str(ct)
 
 
 
