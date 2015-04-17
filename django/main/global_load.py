@@ -1,11 +1,16 @@
 import glob
 import os
-
+import math
+import numpy as np
+from textblob import TextBlob as tb
 from document import Document, DocumentList, Entity
 from graph import Node, Link
 
 import logging
 logger = logging.getLogger(__name__)
+
+
+
 
 class GlobalLoad:
   ready = False
@@ -28,19 +33,80 @@ class GlobalLoad:
     logger.info('GlobalLoad Nbr docs loaded: ' + str(len(self.docList.docs)))
         
     #Entity extraction
-    entitydoc = open("main/hexxor")
+    entitydoc = open("main/some.txt")
     print "file open"
-    for i in range(1,10806):
-      x = entitydoc.readline().split(",") #each iteration of the loop return a key value pair of doc name and entites in the document
+    for i in range(1,7798):
+      x = entitydoc.readline().split("|") #each iteration of the loop return a key value pair of doc name and entites in the document
       for doc in self.docList.docs:
         #print x[0]
         #print doc.fileName
         if x[0] in doc.fileName:
           #print "inside condition"
+          print i
           doc.entities.append(Entity(x[1],x[2]))
     print "done"
 
+    #tf-idf
+    def tf(word,blob):
+      d = blob.lower()
+      return float(d.count(word.lower()))/float(len(d))
+
+    def n_containing(word, bloblist):
+        return sum(1 for blob in bloblist if word.lower() in blob.content.lower())
+
+    def idf(word, bloblist):
+        return float(math.log(float(len(bloblist))/ float(1 + n_containing(word, bloblist))))
+
+    def tfidfunc(word, blob, bloblist):
+      try:
+        return float(tf(word, blob) * idf(word, bloblist))
+      except:
+        return 0
+      #for item in self.docList.docs.entities:
     
+    x = []
+
+    for i in self.docList.docs:
+      for j in i.entities:
+        j.tfidf = tfidfunc(j.name,i.content,self.docList.docs)
+      #  print j.name, j.tfidf
+        x.append(j.tfidf)
+
+    y = np.array(x)
+
+    print "25 percentile"
+    print np.percentile(y,25)
+
+    print "50 percentile"
+    print np.percentile(y,50)
+
+    print "75 percentile"
+    foobar90 = np.percentile(y,75)
+    print foobar90
+
+    ct = 0
+    for i in self.docList.docs:
+      for j in i.entities:
+        if j.tfidf>=foobar90:
+          ct = ct+1
+
+    print "Total count of entities >90th percentile" + str(ct)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     #Search test
     #self.docList.search("test")
     
