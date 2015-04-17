@@ -38,7 +38,7 @@
             stroke: black;
             stroke-width: 2.5px;
         }
-        .node.fixed {
+        .fixed {
             stroke-width: 2.5px;
             stroke: #2c7fb8;
         }
@@ -73,7 +73,7 @@
         <h3>Entities</h3>
         <svg id="leftcanvas" />
         <input type="text" id="node_text" width="260" />
-        <button name="addNode" onclick="addNode">Add</button>
+        <button name="addNode" onclick="addNode()">Add Node</button>
     </div>
     <div id="center">
         <svg id="graphcanvas" />
@@ -99,9 +99,9 @@
         var usercolor = "#ffeda0"; //d3.scale.ordinal().range(colorbrewer.YlOrBr[4]);
 
         var force = d3.layout.force()
-            .gravity(0.15)
+            .gravity(0.05)
             .charge(-120)
-            .linkDistance(125)
+            .linkDistance(155)
             .size([width, height]);
 
         var nodesize = d3.scale.linear();
@@ -133,10 +133,10 @@
                 return d.id;
             })
             var nname = document.getElementById('node_text').value
-            var point = d3.mouse(this),
+//            var point = d3.mouse(this),
                 node = {
-                    x: point[0],
-                    y: point[1],
+//                    x: point[0],
+//                    y: point[1],
                     type: "user",
                     id: nodeId,
                     rank: 0,
@@ -193,20 +193,21 @@
         }
 
         function color(d) {
-            return colorScale(d.type); // Automatic assignment
+            //return colorScale(d.type); // Automatic assignment
             switch (d.type) {
-                case "person": //person
+                case "Person": //person
                     return peoplecolor;
-                case "organization": //org
+                case "Organization": //org
                     return orgcolor;
-                case "location": //place?
+                case "Location": //place?
                     return placecolor;
                 case "user":
                     return usercolor;
-
+                default:
+                    return colorScale(d.type);
             }
         }
-         //d3.json("/api/v1.0/graph?format=json", function(error, graph) {
+        //d3.json("/api/v1.0/graph?format=json", function(error, graph) {
         d3.json("s/fake_data.json", function(error, graph) {
 
             nodesize.domain([0, d3.max(graph.nodes, function(d) {
