@@ -33,15 +33,16 @@ class GlobalLoad:
     logger.info('GlobalLoad Nbr docs loaded: ' + str(len(self.docList.docs)))
         
     #Entity extraction
-    entitydoc = open("main/hexxor")
+    entitydoc = open("main/some.txt")
     print "file open"
-    for i in range(1,10806):
-      x = entitydoc.readline().split(",") #each iteration of the loop return a key value pair of doc name and entites in the document
+    for i in range(1,7798):
+      x = entitydoc.readline().split("|") #each iteration of the loop return a key value pair of doc name and entites in the document
       for doc in self.docList.docs:
         #print x[0]
         #print doc.fileName
         if x[0] in doc.fileName:
           #print "inside condition"
+          print i
           doc.entities.append(Entity(x[1],x[2]))
     print "done"
 
