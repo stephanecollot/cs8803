@@ -55,3 +55,4 @@ target/
 
 stego_dataset_big/
 stego_dataset_small/
+django/main/templates/index_back.html
