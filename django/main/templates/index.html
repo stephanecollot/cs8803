@@ -79,6 +79,11 @@
         <button name="addNode" onclick="addNode()">Add Node</button>
     </div>
     <div id="center">
+        <div id="filter">
+            counterFilter: <input type="number" id="counterFilter" value="2" />
+            tfidfFilter: <input type="number" id="tfidfFilter" value="10" />
+            <button name="update" onclick="update()">Update</button>
+        </div>
         <svg id="graphcanvas" />
     </div>
     <div id="right">
@@ -89,7 +94,7 @@
 
     <script src="s/jquery.min.js"></script>
     <script src="s/search.js"></script>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="s/d3/d3.v3.min.js"></script>
     <script src="s/d3/colorbrewer.js"></script>
     <script>
         var width = 700,
@@ -130,6 +135,12 @@
             d3.select(this).classed("fixed", d.fixed);
         }
 
+        function update() {
+            counterFilter = $("#counterFilter").val();
+            tfidfFilter = $("#tfidfFilter").val();
+        }
+        update()
+        
         function addNode() {
             var nodes = force.nodes()
             var nodeId = d3.max(nodes, function(d) {
