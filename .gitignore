@@ -55,8 +55,4 @@ target/
 
 stego_dataset_big/
 stego_dataset_small/
-<<<<<<< HEAD
 django/main/templates/index_back.html
-=======
-atlantic/
->>>>>>> 19be4150ce8f4e54195d8f827da385db0a47d901
