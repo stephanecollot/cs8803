@@ -6,6 +6,7 @@ import ntpath
 from textblob import TextBlob as tb
 from document import Document, DocumentList, Entity
 from graph import Node, Link
+from pageRank import pageRank
 
 import logging
 logger = logging.getLogger(__name__)
@@ -43,7 +44,7 @@ class GlobalLoad:
               ent = Entity(name, type)
               doc.entities.append( ent )
     print "done"
-
+    
     #tf-idf
     def tf(word,blob):
       d = blob.lower()
@@ -193,12 +194,24 @@ class GlobalLoad:
           pass
 
     print "linksDict len: " + str(len(linksDict))
-    
+        
+    G = np.zeros((len(nodesDict), len(nodesDict)))# Adjacency matrix
     links = []
     for k, v in linksDict.viewitems():
-      links.append(Link(k[0],k[1],v))
+      if not k[0] == k[1]:
+        links.append(Link(k[0],k[1],v))
+        G[k[0]][k[1]] = v
+        G[k[1]][k[0]] = v
     
     print "links len: " + str(len(links))
+ 
+    print G
+    print " "
+    pr = pageRank(G, .85, .000001)
+    print pr
+    
+    for key, node in nodesDict.iteritems():
+      nodesDict[key].rank = pr[nodesDict[key].id]    
     
     self.nodes = nodesDict.values()
     self.links = links
