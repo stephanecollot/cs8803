@@ -7,6 +7,7 @@
             padding: none;
             margin-bottom: 0px;
             margin-top: 0px;
+            text-align: center;
         }
         #left {
             line-height: 30px;
@@ -71,8 +72,10 @@
 <body>
     <div id="left">
         <h3>Entities</h3>
-        <svg id="leftcanvas" />
-        <input type="text" id="node_text" width="260" />
+        <div style="overflow-y:auto; height:625px;">
+            <svg id="leftcanvas" />
+        </div>
+        <input type="text" id="node_text" size="40" />
         <button name="addNode" onclick="addNode()">Add Node</button>
     </div>
     <div id="center">
@@ -108,7 +111,7 @@
 
         var leftsvg = d3.select("#leftcanvas")
             .attr("width", 300)
-            .attr("height", height - 75)
+            .attr("height", height)
             .attr("class", "chart");
 
         var svg = d3.select("#graphcanvas")
@@ -133,16 +136,16 @@
                 return d.id;
             })
             var nname = document.getElementById('node_text').value
-//            var point = d3.mouse(this),
-                node = {
-//                    x: point[0],
-//                    y: point[1],
-                    type: "user",
-                    id: nodeId,
-                    rank: 0,
-                    frequency: 0,
-                    name: nname
-                },
+            //            var point = d3.mouse(this),
+            node = {
+                //                    x: point[0],
+                //                    y: point[1],
+                type: "user",
+                id: nodeId,
+                rank: 0,
+                frequency: 0,
+                name: nname
+            },
                 n = nodes.push(node);
 
             // add links to any nearby nodes
@@ -207,7 +210,7 @@
                     return colorScale(d.type);
             }
         }
-        //d3.json("/api/v1.0/graph?format=json", function(error, graph) {
+         //d3.json("/api/v1.0/graph?format=json", function(error, graph) {
         d3.json("s/fake_data.json", function(error, graph) {
 
             nodesize.domain([0, d3.max(graph.nodes, function(d) {
@@ -283,7 +286,7 @@ and http://bl.ocks.org/mbostock/929623
             svg //.on("mousemove", mousemove)
             .on("dblclick", addNode);
 
- 
+
 
             /**
              **/
@@ -308,11 +311,9 @@ and http://bl.ocks.org/mbostock/929623
                 .domain([0, d3.max(entities, function(d) {
                     return d.frequency
                 })])
-                .range([0, 150]);
+                .range([10, 150]);
 
             var chart = d3.select(".chart");
-            //                .attr("width", width)
-            //                .attr("height", barHeight * entities.length);
 
             var bar = chart.selectAll("g")
                 .data(entities)
@@ -324,8 +325,12 @@ and http://bl.ocks.org/mbostock/929623
             /*
             TODO truncate with tooltip names longer than 100px
             */
-            var namewidth = 140;
+            var namewidth = 150;
             bar.append("text")
+                //.attr("x", namewidth)
+                .attr("title", function(d) { //this doesn't work, come back and fix it
+                    return d.name
+                })
                 .text(function(d) {
                     return d.name
                 })
@@ -335,7 +340,9 @@ and http://bl.ocks.org/mbostock/929623
                 .attr("fill", function(d) {
                     return color(d);
                 })
-                .attr("x", namewidth)
+                .attr("x", function(d) {
+                    return namewidth + 150 - x(d.frequency)
+                })
                 .attr("width", function(d) {
                     return x(d.frequency);
                 })
@@ -344,7 +351,7 @@ and http://bl.ocks.org/mbostock/929623
             bar.append("text")
                 .attr("class", "num")
                 .attr("x", function(d) {
-                    return x(d.frequency) + namewidth - 3;
+                    return namewidth +150 - 3;
                 })
                 .attr("y", barHeight / 2)
                 .attr("dy", ".35em")

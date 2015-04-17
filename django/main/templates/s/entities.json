@@ -1,0 +1,490 @@
+{
+    "nodes": [{
+        frequency: 0,
+        type: "organization",
+        name: "Special Asparagus Season",
+        rank: 0,
+        id: 6
+    }, {
+        frequency: 0,
+        type: "organization",
+        name: "Ecological Studies",
+        rank: 0,
+        id: 7
+    }, {
+        frequency: 0,
+        type: "organization",
+        name: "Washington State University",
+        rank: 0,
+        id: 8
+    }, {
+        frequency: 0,
+        type: "location",
+        name: "7/3/2004",
+        rank: 0,
+        id: 9
+    }, {
+        frequency: 0,
+        type: "location",
+        name: "Washington",
+        rank: 0,
+        id: 10
+    }, {
+        frequency: 0,
+        type: "location",
+        name: "Farmer Jack Varley",
+        rank: 0,
+        id: 11
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Jack Varley",
+        rank: 0,
+        id: 32
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Varley",
+        rank: 0,
+        id: 33
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Bill Clarke",
+        rank: 0,
+        id: 34
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Clarke",
+        rank: 0,
+        id: 35
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "John Sarducci",
+        rank: 0,
+        id: 57
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "John Panni",
+        rank: 0,
+        id: 58
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Aiken",
+        rank: 0,
+        id: 59
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Steve Evanswill",
+        rank: 0,
+        id: 60
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Steve Evans",
+        rank: 0,
+        id: 61
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Evans Olivas",
+        rank: 0,
+        id: 62
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Ron Olivas",
+        rank: 0,
+        id: 63
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Christine Gregoire",
+        rank: 0,
+        id: 64
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Rita Blunk",
+        rank: 0,
+        id: 65
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Bob Story",
+        rank: 0,
+        id: 66
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Max",
+        rank: 0,
+        id: 67
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Ella Mae Lochner",
+        rank: 0,
+        id: 68
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Myrtis Lang",
+        rank: 0,
+        id: 69
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Alice Benedetti",
+        rank: 0,
+        id: 70
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Phyllis Morris",
+        rank: 0,
+        id: 71
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Trude Meadowcroft",
+        rank: 0,
+        id: 72
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Letha Grubb",
+        rank: 0,
+        id: 73
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Lu Ann Roach",
+        rank: 0,
+        id: 74
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Nita Coleman",
+        rank: 0,
+        id: 75
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Ruth Stark",
+        rank: 0,
+        id: 76
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Marie Handy",
+        rank: 0,
+        id: 77
+    }, {
+        frequency: 0,
+        type: "location",
+        name: "Tacoma",
+        rank: 0,
+        id: 78
+    }, {
+        frequency: 0,
+        type: "location",
+        name: "Centennial Square",
+        rank: 0,
+        id: 79
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Martha Bowen",
+        rank: 0,
+        id: 110
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Dr. John H. Schutz",
+        rank: 0,
+        id: 111
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Maurice Bowen",
+        rank: 0,
+        id: 112
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Phyllis Warmington",
+        rank: 0,
+        id: 113
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Dr. William Warmington",
+        rank: 0,
+        id: 114
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Flynn Warmington",
+        rank: 0,
+        id: 115
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Joan Warmington",
+        rank: 0,
+        id: 116
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Jose Ignacio Garica",
+        rank: 0,
+        id: 117
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Jose Ignacio Martinez",
+        rank: 0,
+        id: 118
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Veronica Torres",
+        rank: 0,
+        id: 119
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Patricia Martinez",
+        rank: 0,
+        id: 120
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Miguel",
+        rank: 0,
+        id: 121
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Jose Luis Martinez",
+        rank: 0,
+        id: 122
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Jorge Martinez",
+        rank: 0,
+        id: 123
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Luis Martinez",
+        rank: 0,
+        id: 124
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Jose Lujan",
+        rank: 0,
+        id: 125
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Manuel",
+        rank: 0,
+        id: 126
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Juanita Pi�a",
+        rank: 0,
+        id: 127
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Mercedes",
+        rank: 0,
+        id: 128
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Juan",
+        rank: 0,
+        id: 129
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Oscar",
+        rank: 0,
+        id: 130
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Sylvia Pi�a",
+        rank: 0,
+        id: 131
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Samuel",
+        rank: 0,
+        id: 132
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Juan Jr.",
+        rank: 0,
+        id: 133
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Ciria Tijerina",
+        rank: 0,
+        id: 134
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Gregorio Pi�a",
+        rank: 0,
+        id: 135
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Manuel Pi�a Jr.",
+        rank: 0,
+        id: 136
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Margarita Barron",
+        rank: 0,
+        id: 137
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Joel Pi�a",
+        rank: 0,
+        id: 138
+    }, {
+        frequency: 0,
+        type: "location",
+        name: "Seattle",
+        rank: 0,
+        id: 139
+    }, {
+        frequency: 0,
+        type: "location",
+        name: "Louisville",
+        rank: 0,
+        id: 140
+    }, {
+        frequency: 0,
+        type: "location",
+        name: "Ky.",
+        rank: 0,
+        id: 141
+    }, {
+        frequency: 0,
+        type: "location",
+        name: "Maine",
+        rank: 0,
+        id: 142
+    }, {
+        frequency: 0,
+        type: "location",
+        name: "Kirkland",
+        rank: 0,
+        id: 143
+    }, {
+        frequency: 0,
+        type: "location",
+        name: "Los Angeles",
+        rank: 0,
+        id: 144
+    }, {
+        frequency: 0,
+        type: "location",
+        name: "Mexico",
+        rank: 0,
+        id: 145
+    }, {
+        frequency: 0,
+        type: "location",
+        name: "Texas",
+        rank: 0,
+        id: 146
+    }, {
+        frequency: 0,
+        type: "location",
+        name: "San Juanita",
+        rank: 0,
+        id: 147
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "Ruben Vollmer",
+        rank: 0,
+        id: 3751
+    }, {
+        frequency: 0,
+        type: "date",
+        name: "2004 spring",
+        rank: 0,
+        id: 4073
+    }, {
+        frequency: 0,
+        type: "keyword",
+        name: "VOTE",
+        rank: 0,
+        id: 4109
+    }, {
+        frequency: 0,
+        type: "person",
+        name: "George and Don Dixon",
+        rank: 0,
+        id: 3709
+    }],
+    "links": [{
+        source: 139,
+        target: 3751,
+        weight: 1
+    }, {
+        source: 83,
+        target: 4073,
+        weight: 1
+    }, {
+        source: 41,
+        target: 4109,
+        weight: 1
+    }, {
+        source: 156,
+        target: 3709,
+        weight: 1
+    }, {
+        source: 97,
+        target: 2683,
+        weight: 2
+    }, {
+        source: 2,
+        target: 3024,
+        weight: 1
+    }, {
+        source: 2,
+        target: 1178,
+        weight: 2
+    }, {
+        source: 41,
+        target: 4000,
+        weight: 1
+    }, {
+        source: 2,
+        target: 4265,
+        weight: 1
+    }]
+}
