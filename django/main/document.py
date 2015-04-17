@@ -8,6 +8,7 @@ class Entity(object):
     self.name = name        # Entity value, String
     self.type = type.strip()# Entity type from NLP, String
     self.tfidf = 0.0
+    self.rank = 0.0
     
 class Document(object):
   def __init__(self, content, id, fileName):

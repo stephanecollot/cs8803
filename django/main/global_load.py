@@ -58,8 +58,15 @@ class GlobalLoad:
     allNodes = []
     for doc in self.docList.docs:
       for entity in doc.entities:
-        allNodes.append(Node(entity.name, entity.type))
-        
+				n = Node(entity.name, entity.type)
+				n.frequency = entity.tfidf
+        n.rank = entity.rank
+        allNodes.append(n)
+				
+    # Take only the best nodes based on tfidf == frequency
+		allNodes = sorted(allNodes, key=lambda n: n.frequency, reverse=True) # Sort
+		allNodes = allNodes[:(len(allNodes)*0.10)] # Take 10%
+				
     # Get unique Nodes
     print "allNodes len: " + str(len(allNodes))
     seen = set()
@@ -75,7 +82,7 @@ class GlobalLoad:
     
     # Set node's id
     for i in range(len(uniqueNodes)):
-      uniqueNodes[i].id = i
+      uniqueNodes[i].id = i # TODO can be optimized and node just before in 'uniqueNodes.append(node)'
       
     #Todo Update rank and frequency of Nodes ...
     
@@ -84,8 +91,12 @@ class GlobalLoad:
     for doc in self.docList.docs:
       for i in range(len(doc.entities)):
         id1 = doc.entities[i].name + doc.entities[i].type
+				if not id1 in nodeLookUp: # Entity not selected
+					continue
         for j in range(i+1, len(doc.entities)):
           id2 = doc.entities[j].name + doc.entities[j].type
+					if not id2 in nodeLookUp: # Entity not selected
+						continue
           if nodeLookUp[id1] < nodeLookUp[id2]:
             if (nodeLookUp[id1],nodeLookUp[id2]) in linksDict:
               linksDict[(nodeLookUp[id1],nodeLookUp[id2])] += 1
