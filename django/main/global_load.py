@@ -19,6 +19,7 @@ class GlobalLoad:
   docList = DocumentList()
   nodes = []
   links = []
+  types = []
 
   def __init__(self):
     logger.info('GlobalLoad init ++++++++')
@@ -126,6 +127,9 @@ class GlobalLoad:
         n = Node(entity.name, entity.type)
         n.frequency = entity.tfidf
         allNodes.append(n)
+        
+        if not entity.type in self.types:
+          self.types.append(entity.type)
 				
     # Merge same Nodes together and aggregate the TFIDF
     print "allNodes len: " + str(len(allNodes))
@@ -195,19 +199,19 @@ class GlobalLoad:
 
     print "linksDict len: " + str(len(linksDict))
         
-    G = np.zeros((len(nodesDict), len(nodesDict)))# Adjacency matrix
+    adjacency = np.zeros((len(nodesDict), len(nodesDict)))# Adjacency matrix
     links = []
     for k, v in linksDict.viewitems():
       if not k[0] == k[1]:
         links.append(Link(k[0],k[1],v))
-        G[k[0]][k[1]] = v
-        G[k[1]][k[0]] = v
+        adjacency[k[0]][k[1]] = v
+        adjacency[k[1]][k[0]] = v
     
     print "links len: " + str(len(links))
  
-    print G
+    print adjacency
     print " "
-    pr = pageRank(G, .85, .000001)
+    pr = pageRank(adjacency, .85, .000001)
     print pr
     
     for key, node in nodesDict.iteritems():

@@ -86,11 +86,14 @@ class GraphViewSet(APIView):
     settings.GLOBAL_LOAD.computeGraph()
     nodes = settings.GLOBAL_LOAD.nodes
     links = settings.GLOBAL_LOAD.links
+    types = settings.GLOBAL_LOAD.types
     
     result = '{ "nodes": '
     result += json.dumps([ob.__dict__ for ob in nodes])
     result += ', "links": '
     result += json.dumps([ob.__dict__ for ob in links])
+    result += ', "types": '
+    result += json.dumps(types)
     result += '} '
     #print result
     response = HttpResponse(result, content_type='application/json')

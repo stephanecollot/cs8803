@@ -87,11 +87,12 @@
     <script src="s/jquery.min.js"></script>
     <script src="s/search.js"></script>
     <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src=s/d3/colorbrewer.js></script>
+    <script src="s/d3/colorbrewer.js"></script>
     <script>
         var width = 700,
             height = 700;
 
+        var colorScale = d3.scale.ordinal().range(colorbrewer.PRGn[6]);
         var peoplecolor = "#9ecae1"; //d3.scale.ordinal().range(colorbrewer.Blues[4]);
         var orgcolor = "#bdbdbd"; //d3.scale.ordinal().range(colorbrewer.Reds[4]);
         var placecolor = "#a1d99b"; //d3.scale.ordinal().range(colorbrewer.Greys[4]);
@@ -192,6 +193,7 @@
         }
 
         function color(d) {
+            return colorScale(d.type); // Automatic assignment
             switch (d.type) {
                 case "person": //person
                     return peoplecolor;
