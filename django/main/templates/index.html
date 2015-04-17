@@ -73,9 +73,14 @@
         <h3>Entities</h3>
         <svg id="leftcanvas" />
         <input type="text" id="node_text" width="260" />
-        <button name="addNode" onclick="addNode">Add</button>
+        <button name="addNode" onclick="addNode()">Add</button>
     </div>
     <div id="center">
+        <div id="filter">
+            counterFilter: <input type="number" id="counterFilter" value="2" />
+            tfidfFilter: <input type="number" id="tfidfFilter" value="10" />
+            <button name="update" onclick="update()">Update</button>
+        </div>
         <svg id="graphcanvas" />
     </div>
     <div id="right">
@@ -86,7 +91,7 @@
 
     <script src="s/jquery.min.js"></script>
     <script src="s/search.js"></script>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="s/d3/d3.v3.min.js"></script>
     <script src="s/d3/colorbrewer.js"></script>
     <script>
         var width = 700,
@@ -127,6 +132,12 @@
             d3.select(this).classed("fixed", d.fixed);
         }
 
+        function update() {
+            counterFilter = $("#counterFilter").val();
+            tfidfFilter = $("#tfidfFilter").val();
+        }
+        update()
+        
         function addNode() {
             var nodes = force.nodes()
             var nodeId = d3.max(nodes, function(d) {
@@ -206,8 +217,9 @@
 
             }
         }
-         //d3.json("/api/v1.0/graph?format=json", function(error, graph) {
-        d3.json("s/fake_data.json", function(error, graph) {
+        alert('qsdfqfd'+ tfidfFilter)
+        d3.json("/api/v1.0/graph/?counterFilter="+counterFilter+"&tfidfFilter="+tfidfFilter, function(error, graph) {
+        //d3.json("s/fake_data.json", function(error, graph) {
 
             nodesize.domain([0, d3.max(graph.nodes, function(d) {
                 return d.rank;

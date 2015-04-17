@@ -111,13 +111,13 @@ class GlobalLoad:
     #self.docList.search("test")
     
     #Compute graph
-    self.computeGraph()
+    #self.computeGraph()
     
     logger.info('GlobalLoad init --------')
     self.ready = True
     
     
-  def computeGraph(self):
+  def computeGraph(self, counterFilter, tfidfFilter):
     logger.info('getGraph')
     
     # First list all Entities and convert them into Nodes
@@ -160,9 +160,11 @@ class GlobalLoad:
     print "min freq" + str(frequencies[-numberOfNode])
     print "min counter" + str(counters[-numberOfNode])
     for key, node in nodesDict.items():
-      #if node.frequency < frequencies[-numberOfNode]:
-        #del nodesDict[key]
-      if node.counter < counters[-numberOfNode]:
+      '''if node.frequency < frequencies[-numberOfNode]:
+        del nodesDict[key]
+      if node.counter < counters[-15]:
+        del nodesDict[key]'''
+      if node.counter < counterFilter or node.frequency < frequencies[-tfidfFilter]:
         del nodesDict[key]
     print "len nodesDict filtered" + str(len(nodesDict))
     
@@ -209,10 +211,8 @@ class GlobalLoad:
     
     print "links len: " + str(len(links))
  
-    print adjacency
-    print " "
+
     pr = pageRank(adjacency, .85, .000001)
-    print pr
     
     for key, node in nodesDict.iteritems():
       nodesDict[key].rank = pr[nodesDict[key].id]    
