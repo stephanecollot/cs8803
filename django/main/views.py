@@ -58,7 +58,27 @@ def getHtml(document):
     html = html.replace(e.name, '<span class="'+e.type +'">' + e.name + '</span>')
   return html
 
+def graph(request):
+  counterFilter = int(request.GET.get('counterFilter', '2'))
+  tfidfFilter = int(request.GET.get('tfidfFilter', '10'))
+  print "counterFilter: " + str(counterFilter) + " tfidfFilter: " + str(tfidfFilter)
 
+  settings.GLOBAL_LOAD.computeGraph(counterFilter, tfidfFilter)
+  nodes = settings.GLOBAL_LOAD.nodes
+  links = settings.GLOBAL_LOAD.links
+  types = settings.GLOBAL_LOAD.types
+  
+  result = '{ "nodes": '
+  result += json.dumps([ob.__dict__ for ob in nodes])
+  result += ', "links": '
+  result += json.dumps([ob.__dict__ for ob in links])
+  result += ', "types": '
+  result += json.dumps(types)
+  result += '} '
+  #print result
+  response = HttpResponse(result, content_type='application/json')
+  return response
+  
 class DocumentViewSet(APIView):
 
   def get(self, request, *args, **kw):
@@ -80,21 +100,3 @@ class DocumentViewSet(APIView):
     response.__setitem__("Access-Control-Allow-Origin", "*")
     return response
     
-class GraphViewSet(APIView):
-
-  def get(self, request, *args, **kw):
-    settings.GLOBAL_LOAD.computeGraph()
-    nodes = settings.GLOBAL_LOAD.nodes
-    links = settings.GLOBAL_LOAD.links
-    types = settings.GLOBAL_LOAD.types
-    
-    result = '{ "nodes": '
-    result += json.dumps([ob.__dict__ for ob in nodes])
-    result += ', "links": '
-    result += json.dumps([ob.__dict__ for ob in links])
-    result += ', "types": '
-    result += json.dumps(types)
-    result += '} '
-    #print result
-    response = HttpResponse(result, content_type='application/json')
-    return response

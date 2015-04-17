@@ -72,13 +72,24 @@
 <body>
     <div id="left">
         <h3>Entities</h3>
+<<<<<<< HEAD
         <div style="overflow-y:auto; height:625px;">
             <svg id="leftcanvas" />
         </div>
         <input type="text" id="node_text" size="40" />
         <button name="addNode" onclick="addNode()">Add Node</button>
+=======
+        <svg id="leftcanvas" />
+        <input type="text" id="node_text" width="260" />
+        <button name="addNode" onclick="addNode()">Add</button>
+>>>>>>> 19be4150ce8f4e54195d8f827da385db0a47d901
     </div>
     <div id="center">
+        <div id="filter">
+            counterFilter: <input type="number" id="counterFilter" value="2" />
+            tfidfFilter: <input type="number" id="tfidfFilter" value="10" />
+            <button name="update" onclick="update()">Update</button>
+        </div>
         <svg id="graphcanvas" />
     </div>
     <div id="right">
@@ -89,7 +100,7 @@
 
     <script src="s/jquery.min.js"></script>
     <script src="s/search.js"></script>
-    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="s/d3/d3.v3.min.js"></script>
     <script src="s/d3/colorbrewer.js"></script>
     <script>
         var width = 700,
@@ -130,6 +141,12 @@
             d3.select(this).classed("fixed", d.fixed);
         }
 
+        function update() {
+            counterFilter = $("#counterFilter").val();
+            tfidfFilter = $("#tfidfFilter").val();
+        }
+        update()
+        
         function addNode() {
             var nodes = force.nodes()
             var nodeId = d3.max(nodes, function(d) {
@@ -210,8 +227,9 @@
                     return colorScale(d.type);
             }
         }
-         //d3.json("/api/v1.0/graph?format=json", function(error, graph) {
-        d3.json("s/fake_data.json", function(error, graph) {
+        alert('qsdfqfd'+ tfidfFilter)
+        d3.json("/api/v1.0/graph/?counterFilter="+counterFilter+"&tfidfFilter="+tfidfFilter, function(error, graph) {
+        //d3.json("s/fake_data.json", function(error, graph) {
 
             nodesize.domain([0, d3.max(graph.nodes, function(d) {
                 return d.rank;
