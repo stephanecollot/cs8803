@@ -52,3 +52,6 @@ docs/_build/
 
 # PyBuilder
 target/
+
+stego_dataset_big/
+stego_dataset_small/

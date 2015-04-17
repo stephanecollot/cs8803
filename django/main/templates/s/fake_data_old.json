@@ -1,0 +1,70 @@
+{
+    "nodes": [{
+        "id": 1,
+        "name": "Myriel",
+        "rank": 2,
+        "frequency": 10,
+        "type": "person"
+    }, {
+        "id": 2,
+        "name": "Napoleon",
+        "rank": 1,
+        "frequency": 15,
+        "type": "person"
+    }, {
+        "id": 3,
+        "name": "Mlle.Baptistine",
+        "rank": 1,
+        "frequency": 8,
+        "type": "person"
+    }, {
+        "id": 4,
+        "name": "Assoc. Mme.Magloire",
+        "rank": 0,
+        "frequency": 2,
+        "type": "organization"
+    }, {
+        "id": 5,
+        "name": "CountessdeLo Inc.",
+        "rank": 1,
+        "frequency": 11,
+        "type": "organization"
+    }, {
+        "id": 6,
+        "name": "Geborand City",
+        "rank": 1,
+        "frequency": 4,
+        "type": "location"
+    }, {
+        "id": 7,
+        "name": "1 Champtercier St.",
+        "rank": 0,
+        "frequency": 1,
+        "type": "location"
+    } ],
+    "links": [{
+        "source": 1,
+        "target": 2,
+        "weight": 1
+    }, {
+        "source": 2,
+        "target": 3,
+        "weight": 8
+    }, {
+        "source": 2,
+        "target": 0,
+        "weight": 8
+    }, {
+        "source": 3,
+        "target": 0,
+        "weight": 10
+    }, {
+        "source": 3,
+        "target": 5,
+        "weight": 6
+    }, {
+        "source": 4,
+        "target": 6,
+        "weight": 1
+    } ]
+}

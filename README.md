@@ -12,7 +12,13 @@ Coding rules:
 ```
 pip install django
 pip install djangorestframework
+pip install -U textblob
 ```
+
+For NumPy: Download it from http://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy
+Copy the downloaded ```numpy-1.9.2+mkl-cp27-none-win_amd64.whl``` into your Python directory (C:\Python27\Scripts)
+In cmd navigate to the above directory and run the command below: 
+```pip2.7.exe install "numpy-1.9.2+mkl-cp27-none-win_amd64.whl"```
 
 ## Launch
 

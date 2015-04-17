@@ -86,7 +86,7 @@ class GraphViewSet(APIView):
     settings.GLOBAL_LOAD.computeGraph()
     nodes = settings.GLOBAL_LOAD.nodes
     links = settings.GLOBAL_LOAD.links
-
+    
     result = '{ "nodes": '
     result += json.dumps([ob.__dict__ for ob in nodes])
     result += ', "links": '
