@@ -80,8 +80,9 @@
     </div>
     <div id="center">
         <div id="filter">
-            counterFilter: <input type="number" id="counterFilter" value="2" />
-            tfidfFilter: <input type="number" id="tfidfFilter" value="10" />
+            counterFilter:
+            <input type="number" id="counterFilter" value="2" />tfidfFilter:
+            <input type="number" id="tfidfFilter" value="10" />
             <button name="update" onclick="update()">Update</button>
         </div>
         <svg id="graphcanvas" />
@@ -136,11 +137,11 @@
         }
 
         function update() {
-            counterFilter = $("#counterFilter").val();
-            tfidfFilter = $("#tfidfFilter").val();
+            cf = $("#counterFilter").val();
+            tf = $("#tfidfFilter").val();
+            loadGraph(cf,tf);
         }
-        update()
-        
+
         function addNode() {
             var nodes = force.nodes()
             var nodeId = d3.max(nodes, function(d) {
@@ -221,156 +222,166 @@
                     return colorScale(d.type);
             }
         }
-        //alert('qsdfqfd'+ tfidfFilter)
-        //d3.json("/api/v1.0/graph/?counterFilter="+counterFilter+"&tfidfFilter="+tfidfFilter, function(error, graph) {
-        d3.json("s/fake_data.json", function(error, graph) {
 
-            nodesize.domain([0, d3.max(graph.nodes, function(d) {
-                return d.rank;
-            })])
-                .range([10, 25]);
+        function loadGraph(maxRank, maxTfidf) {
+            //alert('qsdfqfd'+ tfidfFilter)
+            var url = "/api/v1.0/graph/?";
+            if(maxRank && maxTfidf){
+                url.concat("?counterFilter="+maxRank+"&tfidfFilter="+maxTfidf);
+            }
+            d3.json(url, function(error, graph) {
+            //d3.json("s/fake_data.json", function(error, graph) {
 
-            force
-                .nodes(graph.nodes)
-                .links(graph.links);
+                nodesize.domain([0, d3.max(graph.nodes, function(d) {
+                    return d.rank;
+                })])
+                    .range([10, 25]);
 
-            restart();
-            force.on("tick", function(e) {
-                var link = svg.selectAll(".link");
-                var node = svg.selectAll(".node");
+                force
+                    .nodes(graph.nodes)
+                    .links(graph.links);
 
-                link.attr("x1", function(d) {
-                    return d.source.x;
-                })
-                    .attr("y1", function(d) {
-                        return d.source.y;
+                restart();
+                force.on("tick", function(e) {
+                    var link = svg.selectAll(".link");
+                    var node = svg.selectAll(".node");
+
+                    link.attr("x1", function(d) {
+                        return d.source.x;
                     })
-                    .attr("x2", function(d) {
-                        return d.target.x;
-                    })
-                    .attr("y2", function(d) {
-                        return d.target.y;
-                    });
+                        .attr("y1", function(d) {
+                            return d.source.y;
+                        })
+                        .attr("x2", function(d) {
+                            return d.target.x;
+                        })
+                        .attr("y2", function(d) {
+                            return d.target.y;
+                        });
 
-                node
-                    .attr("transform", function(d) {
-                        return "translate(" + d.x + "," + d.y + ")";
-                    });
-            });
+                    node
+                        .attr("transform", function(d) {
+                            return "translate(" + d.x + "," + d.y + ")";
+                        });
+                });
 
-            /**
+                /**
 Editable graph.  Code borrowed liberally from : http://bl.ocks.org/rkirsling/5001347
 and http://bl.ocks.org/mbostock/929623
 **/
 
-            // define arrow markers for graph links
-            //            svg.append('svg:defs').append('svg:marker')
-            //                .attr('id', 'end-arrow')
-            //                .attr('viewBox', '0 -5 10 10')
-            //                .attr('refX', 6)
-            //                .attr('markerWidth', 3)
-            //                .attr('markerHeight', 3)
-            //                .attr('orient', 'auto')
-            //                .append('svg:path')
-            //                .attr('d', 'M0,-5L10,0L0,5')
-            //                .attr('fill', '#000');
-            //
-            //            svg.append('svg:defs').append('svg:marker')
-            //                .attr('id', 'start-arrow')
-            //                .attr('viewBox', '0 -5 10 10')
-            //                .attr('refX', 4)
-            //                .attr('markerWidth', 3)
-            //                .attr('markerHeight', 3)
-            //                .attr('orient', 'auto')
-            //                .append('svg:path')
-            //                .attr('d', 'M10,-5L0,0L10,5')
-            //                .attr('fill', '#000');
-            //
-            //            // line displayed when dragging new nodes
-            //            var drag_line = svg.append('svg:path')
-            //                .attr('class', 'link dragline hidden')
-            //                .attr('d', 'M0,0L0,0');
-            //
-            //            // handles to link and node element groups
-            //            var path = svg.append('svg:g').selectAll('path'),
-            //                circle = svg.append('svg:g').selectAll('g');
+                // define arrow markers for graph links
+                //            svg.append('svg:defs').append('svg:marker')
+                //                .attr('id', 'end-arrow')
+                //                .attr('viewBox', '0 -5 10 10')
+                //                .attr('refX', 6)
+                //                .attr('markerWidth', 3)
+                //                .attr('markerHeight', 3)
+                //                .attr('orient', 'auto')
+                //                .append('svg:path')
+                //                .attr('d', 'M0,-5L10,0L0,5')
+                //                .attr('fill', '#000');
+                //
+                //            svg.append('svg:defs').append('svg:marker')
+                //                .attr('id', 'start-arrow')
+                //                .attr('viewBox', '0 -5 10 10')
+                //                .attr('refX', 4)
+                //                .attr('markerWidth', 3)
+                //                .attr('markerHeight', 3)
+                //                .attr('orient', 'auto')
+                //                .append('svg:path')
+                //                .attr('d', 'M10,-5L0,0L10,5')
+                //                .attr('fill', '#000');
+                //
+                //            // line displayed when dragging new nodes
+                //            var drag_line = svg.append('svg:path')
+                //                .attr('class', 'link dragline hidden')
+                //                .attr('d', 'M0,0L0,0');
+                //
+                //            // handles to link and node element groups
+                //            var path = svg.append('svg:g').selectAll('path'),
+                //                circle = svg.append('svg:g').selectAll('g');
 
-            svg //.on("mousemove", mousemove)
-            .on("dblclick", addNode);
+                svg //.on("mousemove", mousemove)
+                .on("dblclick", addNode);
 
 
 
-            /**
-             **/
-            /*
+                /**
+                 **/
+                /*
             left side
             */
-            var entities = graph.nodes;
-            entities.sort(function(a, b) {
-                if (a.frequency > b.frequency) {
-                    return 1;
-                }
-                if (a.frequency < b.frequency) {
-                    return -1;
-                }
-                return 0;
-            }).reverse();
+                var entities = graph.nodes;
+                entities.sort(function(a, b) {
+                    if (a.frequency > b.frequency) {
+                        return 1;
+                    }
+                    if (a.frequency < b.frequency) {
+                        return -1;
+                    }
+                    return 0;
+                }).reverse();
 
-            //            var barWidth = 150,
-            var barHeight = 20;
+                //            var barWidth = 150,
+                var barHeight = 20;
 
-            var x = d3.scale.linear()
-                .domain([0, d3.max(entities, function(d) {
-                    return d.frequency
-                })])
-                .range([10, 150]);
+                var x = d3.scale.linear()
+                    .domain([0, d3.max(entities, function(d) {
+                        return d.frequency
+                    })])
+                    .range([10, 150]);
 
-            var chart = d3.select(".chart");
+                var chart = d3.select(".chart");
 
-            var bar = chart.selectAll("g")
-                .data(entities)
-                .enter().append("g")
-                .attr("transform", function(d, i) {
-                    return "translate(0," + i * barHeight + ")";
-                });
+                var bar = chart.selectAll("g")
+                    .data(entities)
+                    .enter().append("g")
+                    .attr("transform", function(d, i) {
+                        return "translate(0," + i * barHeight + ")";
+                    });
 
-            /*
+                /*
             TODO truncate with tooltip names longer than 100px
             */
-            var namewidth = 150;
-            bar.append("text")
+                var namewidth = 150;
+                bar.append("text")
                 //.attr("x", namewidth)
                 .attr("title", function(d) { //this doesn't work, come back and fix it
                     return d.name
                 })
-                .text(function(d) {
-                    return d.name
-                })
-                .attr("dy", ".75em");
+                    .text(function(d) {
+                        return d.name
+                    })
+                    .attr("dy", ".75em");
 
-            bar.append("rect")
-                .attr("fill", function(d) {
-                    return color(d);
-                })
-                .attr("x", function(d) {
-                    return namewidth + 150 - x(d.frequency)
-                })
-                .attr("width", function(d) {
-                    return x(d.frequency);
-                })
-                .attr("height", barHeight - 1);
+                bar.append("rect")
+                    .attr("fill", function(d) {
+                        return color(d);
+                    })
+                    .attr("x", function(d) {
+                        return namewidth + 150 - x(d.frequency)
+                    })
+                    .attr("width", function(d) {
+                        return x(d.frequency);
+                    })
+                    .attr("height", barHeight - 1);
 
-            bar.append("text")
-                .attr("class", "num")
-                .attr("x", function(d) {
-                    return namewidth +150 - 3;
-                })
-                .attr("y", barHeight / 2)
-                .attr("dy", ".35em")
-                .text(function(d) {
-                    return d.frequency;
-                });
+                bar.append("text")
+                    .attr("class", "num")
+                    .attr("x", function(d) {
+                        return namewidth + 150 - 3;
+                    })
+                    .attr("y", barHeight / 2)
+                    .attr("dy", ".35em")
+                    .text(function(d) {
+                        return d.frequency;
+                    });
 
-        });
+            });
+
+        }
+        
+        loadGraph();
     </script>
 
