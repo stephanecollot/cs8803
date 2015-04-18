@@ -80,9 +80,9 @@
     </div>
     <div id="center">
         <div id="filter">
-            counterFilter:
-            <input type="number" id="counterFilter" value="2" />tfidfFilter:
-            <input type="number" id="tfidfFilter" value="10" />
+            Minimum Links:
+            <input type="number" id="counterFilter" value="2" />Top Entities:
+            <input type="number" id="tfidfFilter" value="100" />
             <button name="update" onclick="update()">Update</button>
         </div>
         <svg id="graphcanvas" />
@@ -108,12 +108,12 @@
         var usercolor = "#ffeda0"; //d3.scale.ordinal().range(colorbrewer.YlOrBr[4]);
 
         var force = d3.layout.force()
-            .gravity(0.05)
+            .gravity(0.15)
             .charge(-120)
-            .linkDistance(155)
+            .linkDistance(125)
             .size([width, height]);
 
-        var nodesize = d3.scale.linear();
+        var nodesize = d3.scale.pow();
 
         var leftsvg = d3.select("#leftcanvas")
             .attr("width", 300)
@@ -225,10 +225,10 @@
 
         function loadGraph(maxRank, maxTfidf) {
             //alert('qsdfqfd'+ tfidfFilter)
-            var url = "/api/v1.0/graph/?";
-            if(maxRank && maxTfidf){
-                url.concat("?counterFilter="+maxRank+"&tfidfFilter="+maxTfidf);
-            }
+            var url = "/api/v1.0/graph/?counterFilter="+maxRank+"&tfidfFilter="+maxTfidf;
+//            if(maxRank && maxTfidf){
+//               url = url.concat("counterFilter="+maxRank+"&tfidfFilter="+maxTfidf);
+//            }
             d3.json(url, function(error, graph) {
             //d3.json("s/fake_data.json", function(error, graph) {
 
@@ -382,6 +382,6 @@ and http://bl.ocks.org/mbostock/929623
 
         }
         
-        loadGraph();
+        loadGraph(2,100);
     </script>
 
