@@ -331,6 +331,7 @@ and http://bl.ocks.org/mbostock/929623
             left side
             */
                 var entities = graph.nodes;
+                leftsvg.attr("height", function(){ return entities.length*20;});
                 entities.sort(function(a, b) {
                     if (a.frequency > b.frequency) {
                         return 1;
