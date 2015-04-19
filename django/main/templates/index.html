@@ -48,11 +48,11 @@
         }
         .label {
             stroke-width: 0;
-            font-family="sans-serif";
+           // font-family: "Helvetica Neue";
             font-size="20px";
             text-anchor="middle";
         }
-        .chart rect {} .chart text.num {
+        .chart text.num {
             fill: white;
             font: 10px sans-serif;
             text-anchor: end;
@@ -62,6 +62,27 @@
         }
         #result a {
             font-size: 0.8em;
+        }
+        .legendbox {
+            position: absolute;
+            top: 120px;
+            width: 100px;
+            height: 100px;
+            padding-right: 20px;
+            background-color: white;
+        }
+        .legend {
+            width: 80px;
+            height: 100px;
+            padding-right: 100px;
+        }
+        .legend rect {
+            fill: white;
+            stroke: black;
+            opacity: 0.8;
+        }
+        .legend text {
+            //font-family: "Helvetica Neue";
         }
     }
     </style>
@@ -87,6 +108,7 @@
         <svg id="graphcanvas" />
     </div>
     <div id="right">
+        Search Documents:
         <input type="text" id="search" />
         <div id="result">
         </div>
@@ -114,6 +136,7 @@
 
         var nodesize = d3.scale.pow();
 
+
         var leftsvg = d3.select("#leftcanvas")
             .attr("width", 300)
             .attr("height", height)
@@ -121,12 +144,6 @@
 
         var svg = d3.select("#graphcanvas")
             .attr("width", width)
-            .attr("height", height);
-
-         //place holder for document search, might not want an svg
-        var rightsvg = d3.select("body").append("svg")
-
-        .attr("width", 300)
             .attr("height", height);
 
 
@@ -157,7 +174,7 @@
                 frequency: 0,
                 name: nname
             };
-                n = nodes.push(node);
+            n = nodes.push(node);
 
             // add links to any nearby nodes
             //                nodes.forEach(function(target) {
@@ -195,10 +212,10 @@
                 .attr("r", function(d) {
                     return nodesize(d.rank);
                 })
-               .attr("fixed",true)
+                .attr("fixed", true)
                 .on("click", fixNode)
                 .style("fill", function(d) {
-                    return color(d);
+                    return color(d.type);
                 });
 
             node.append("text")
@@ -214,7 +231,7 @@
 
         function color(d) {
             //return colorScale(d.type); // Automatic assignment
-            switch (d.type) {
+            switch (d) {
                 case "Person": //person
                     return peoplecolor;
                 case "Organization": //org
@@ -229,11 +246,7 @@
         }
 
         function loadGraph(maxRank, maxTfidf) {
-            //alert('qsdfqfd'+ tfidfFilter)
             var url = "/api/v1.0/graph/?counterFilter=" + maxRank + "&tfidfFilter=" + maxTfidf;
-            //            if(maxRank && maxTfidf){
-            //               url = url.concat("counterFilter="+maxRank+"&tfidfFilter="+maxTfidf);
-            //            }
             d3.json(url, function(error, graph) {
                 //d3.json("s/fake_data.json", function(error, graph) {
 
@@ -361,7 +374,7 @@ and http://bl.ocks.org/mbostock/929623
 
                 bar.append("rect")
                     .attr("fill", function(d) {
-                        return color(d);
+                        return color(d.type);
                     })
                     .attr("x", function(d) {
                         return namewidth + 150 - x(d.frequency)
@@ -387,6 +400,35 @@ and http://bl.ocks.org/mbostock/929623
             });
 
         }
+        d3.json("s/types.json", function(error, types) {
+
+            var legend = svg.append("svg")
+                .attr("class", "legendbox")
+                .style("left", (width) + "px")
+                .selectAll(".legend")
+                .data(types.types)
+                .enter().append("g")
+                .attr("class", "legend")
+                .attr("transform", function(d, i) {
+                    return "translate(0," + i * 20 + ")";
+                });
+
+            legend.append("rect")
+                .attr("width", 18)
+                .attr("height", 18)
+                .style("fill", function(d) {
+                    return color(d);
+                });
+
+            legend.append("text")
+                .attr("x", 22)
+                .attr("y", 10)
+                .attr("dy", ".35em")
+                .style("text-anchor", "start")
+                .text(function(d) {
+                    return d;
+                });
+        });
 
         loadGraph(2, 75);
     </script>
