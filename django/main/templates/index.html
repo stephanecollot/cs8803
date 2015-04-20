@@ -119,7 +119,7 @@
     </div>
     <div id="right">
         Search Documents:
-        <input type="text" id="search" size="18"/>
+        <input type="text" id="search" size="18" />
         <div id="result">
         </div>
     </div>
@@ -158,7 +158,7 @@
             .linkDistance(125)
             .size([width, height]);
 
-        var nodesize = d3.scale.pow();
+        var nodesize = d3.scale.pow().exponent(.5).range([10, 25]);
 
         var selectedNode = null;
         var draggingNode = null;
@@ -242,17 +242,14 @@
         function overCircle(d) {
             selectedNode = d;
             d3.select(this).classed("selected", true);
-            //updateLink();
         }
 
         function outCircle(d) {
             d3.select(this).classed("selected", false);
             selectedNode = null;
-
-            //updateLink();
         }
 
-        function updateLinksOnly() {
+        function updateLinksOnly() {//this probably is no longer necessary because i fixed the node update problem
             force.start();
             var links = force.links(),
                 nodes = force.nodes();
@@ -273,6 +270,12 @@
             var links = force.links(),
                 nodes = force.nodes();
 
+            nodesize
+                .domain([0, d3.max(nodes, function(d) {
+                    return d.rank;
+                })]);
+                
+
             var link = svg.selectAll(".link").data(links);
 
             link.enter().insert("line", ".node")
@@ -292,6 +295,7 @@
             var nodesvg = svg.selectAll(".node")
                 .data(nodes);
 
+            //update existing
             nodesvg.select("circle")
                 .attr("r", function(d) {
                     return nodesize(d.rank);
@@ -405,10 +409,6 @@
                         docs: e.docs
                     });
                 });
-                nodesize.domain([0, d3.max(graph.nodes, function(d) {
-                    return d.rank;
-                })])
-                    .range([10, 25]);
 
                 force
                     .nodes(graph.nodes)
