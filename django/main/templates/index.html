@@ -153,9 +153,9 @@
         var usercolor = "#ffeda0"; //d3.scale.ordinal().range(colorbrewer.YlOrBr[4]);
 
         var force = d3.layout.force()
-            .gravity(0.20)
-            .charge(-120)
-            .linkDistance(125)
+            .gravity(0.05)
+            .charge(-160) //-120
+            .linkDistance(70) //125
             .size([width, height]);
 
         var nodesize = d3.scale.pow().exponent(.5).range([10, 25]);
