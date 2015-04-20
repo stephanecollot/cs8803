@@ -52,10 +52,18 @@ def openDocument(request, id):
 
 def getHtml(document):
   entities = document.entities
-  html = '<link rel="stylesheet" type="text/css" href="http://127.0.0.1:8000/s/entities.css">' + document.content
-  html = html.replace("\n", "<br>")
+  html = document.content
+  first_lines = html.split('\n', 3)
+  title = first_lines[0]
+  html = html.replace(title, '<h2>' + title + '</h2>')
+  if("Story by" in first_lines[1] or "Date Published"):
+    html = html.replace(first_lines[1], '<em>' + first_lines[1] + '</em>')
+  if("Date Published" in first_lines[2]):
+    html = html.replace(first_lines[2], '<em>' + first_lines[2] + '</em>')
+  html = html.replace("\n", "<br/>")
   for e in entities:
     html = html.replace(e.name, '<span class="'+e.type +'">' + e.name + '</span>')
+  html = '<link rel="stylesheet" type="text/css" href="http://127.0.0.1:8000/s/entities.css"><meta charset="UTF-8">' + html
   return html
 
 def graph(request):

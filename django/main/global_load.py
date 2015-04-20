@@ -65,12 +65,16 @@ class GlobalLoad:
       #for item in self.docList.docs.entities:
     
     x = []
-
+    filesthing = open("gaga.csv","w")
     for i in self.docList.docs:
       for j in i.entities:
         j.tfidf = tfidfunc(j.name,i.content,self.docList.docs)
       #  print j.name, j.tfidf
+        filesthing.write(i.fileName+"|"+j.name+"|"+j.type+"|"+str(j.tfidf))
+        filesthing.write("\n")
         x.append(j.tfidf)
+    filesthing.close()
+
 
     y = np.array(x)
 

@@ -19,5 +19,11 @@ class Link(object):
     self.source = source
     self.target = target
     self.weight = weight
-    self.docs = docs
+    self.docs = getHtmlLinks(docs)
 
+  def getHtmlLinks(docs):
+    html = ""
+    for docId in docs:
+      doc = settings.GLOBAL_LOAD.docList.docs[int(docId)]
+      html += '<a href="#" onClick="openDocument('+doc.id+');return false;">' + doc.name + '</a><br>'
+    return html
