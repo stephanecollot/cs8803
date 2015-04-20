@@ -167,12 +167,12 @@
                 var tg = force.nodes().indexOf(draggingNode);
                 var data = {
                     source: selectedNode,
-                    target: draggingNode,
-                    weight: 1
+                    target: draggingNode
+                    //weight: 1
                 };
                 var links = force.links();
                 links.push(data);
-                restart();
+                updateLinksOnly();
             } else if (draggingNode != null) {
                 fixNode(draggingNode);
             }
@@ -232,9 +232,24 @@
 
             //updateLink();
         }
+        function updateLinksOnly() {
+            var links = force.links(),
+                nodes = force.nodes();
+
+            var link = svg.selectAll(".link").data(links);
+
+            link.enter().insert("line", ".node")
+                .attr("class", "link")
+                .style("stroke-width", function(d) {
+                    return Math.sqrt(d.weight);
+                });
+
+            link.exit().remove();
+            //force.start();
+
+        }
 
         function restart() {
-            force.start();
             var links = force.links(),
                 nodes = force.nodes();
 
@@ -248,8 +263,8 @@
 
             link.exit().remove();
 
-            var nodes = svg.selectAll(".node").data(nodes);
-            node = nodes.enter().append("g")
+            var nodesvg = svg.selectAll(".node").data(nodes);
+            node = nodesvg.enter().append("g")
                 .attr("class", "node");
 
 
@@ -272,10 +287,11 @@
                 .text(function(d) {
                     return d.name;
                 });
-
-            nodes.exit().remove();
             node.call(force.drag);
-            force.stop;
+
+            nodesvg.exit().remove();
+            //force.stop;
+            force.start();
 
         }
 
