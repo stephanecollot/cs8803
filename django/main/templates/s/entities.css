@@ -1,16 +1,16 @@
-.date {
-  background-color: green;
+.Organization {
+  background-color: #bdbdbd;
 }
-.name {
-  background-color: red;
+.Person {
+  background-color: #9ecae1;
 }
-.object {
-  background-color: cyan;
+.Other {
+  background-color: #ffeda0;
 }
-.place {
-  background-color: yellow;
+.Location {
+  background-color: #a1d99b;
 }
 
 .search {
-  background-color: orange;
+  background-color: yellow;
 }
