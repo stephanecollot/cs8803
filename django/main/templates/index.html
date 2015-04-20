@@ -232,7 +232,9 @@
 
             //updateLink();
         }
+
         function updateLinksOnly() {
+            force.start();
             var links = force.links(),
                 nodes = force.nodes();
 
@@ -245,7 +247,6 @@
                 });
 
             link.exit().remove();
-            //force.start();
 
         }
 
