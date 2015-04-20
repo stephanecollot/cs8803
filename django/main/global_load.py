@@ -93,7 +93,7 @@ class GlobalLoad:
       for j in i.entities:
         if j.tfidf>=foobar90:
           ct = ct+1
-          print j.name
+          #print j.name
 
     print "Total count of entities >90th percentile" + str(ct)
 
