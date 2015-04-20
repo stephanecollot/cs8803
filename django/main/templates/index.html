@@ -106,7 +106,7 @@
     <div id="center">
         <div id="filter">
             Minimum Node Rank:
-            <input id="counterFilter" min="1" max="25" value="2" type="range" />Top Entities:
+            <input id="counterFilter" min="1" max="25" value="2" type="range" />Importance Score:
             <input type="range" min="10" max="500" id="tfidfFilter" value="100" />
             <button name="update" onclick="update()">Update</button>
         </div>
@@ -212,6 +212,7 @@
                 id: nodeId,
                 rank: 0,
                 frequency: 0,
+                counter: 0,
                 name: nname
             };
             n = nodes.push(node);
@@ -255,10 +256,10 @@
                 .attr("r", function(d) {
                     return nodesize(d.rank);
                 })
-//                .on("dblclick", function(d) {
-//                    d.fixed = !d.fixed;
-//                })
-                .on("mouseover", overCircle)
+            //                .on("dblclick", function(d) {
+            //                    d.fixed = !d.fixed;
+            //                })
+            .on("mouseover", overCircle)
                 .on("mouseout", outCircle)
                 .style("fill", function(d) {
                     return color(d.type);
@@ -363,10 +364,10 @@
                     return entities.length * 20;
                 });
                 entities.sort(function(a, b) {
-                    if (a.frequency > b.frequency) {
+                    if (a.counter > b.counter) {
                         return 1;
                     }
-                    if (a.frequency < b.frequency) {
+                    if (a.counter < b.counter) {
                         return -1;
                     }
                     return 0;
@@ -377,7 +378,7 @@
 
                 var x = d3.scale.linear()
                     .domain([0, d3.max(entities, function(d) {
-                        return d.frequency
+                        return d.counter
                     })])
                     .range([10, 150]);
 
@@ -389,9 +390,6 @@
                         return "translate(0," + i * barHeight + ")";
                     });
 
-                /*
-            TODO truncate with tooltip names longer than 100px
-            */
                 var namewidth = 150;
                 bar.append("text")
                 //.attr("x", namewidth)
@@ -408,10 +406,10 @@
                         return color(d.type);
                     })
                     .attr("x", function(d) {
-                        return namewidth + 150 - x(d.frequency)
+                        return namewidth + 150 - x(d.counter)
                     })
                     .attr("width", function(d) {
-                        return x(d.frequency);
+                        return x(d.counter);
                     })
                     .attr("height", barHeight - 1);
 
@@ -423,7 +421,7 @@
                     .attr("y", barHeight / 2)
                 //.attr("dy", ".35em")
                 .text(function(d) {
-                    return d.frequency;
+                    return d.counter;
                 });
 
                 chart.exit().remove();
