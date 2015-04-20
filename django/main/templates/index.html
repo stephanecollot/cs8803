@@ -95,12 +95,6 @@
 </head>
 
 <body>
-    <div id="menu" style="top: 35px; left: 200px; background-color: gray; height: 100px; width:100px; z-index: 1; position: absolute; visibility: hidden;">
-      <p>Menu:</p>
-       <div id="menuContent">
-       hey
-       </div>
-    </div>
     <div id="left">
         <h3>Entities</h3>
         <div style="overflow-y:auto; height:625px;">
@@ -110,6 +104,10 @@
         <button name="addNode" onclick="addNode()">Add Node</button>
     </div>
     <div id="center">
+      <div id="menu" style="top: 35px; left: 200px; background-color: gray; height: 100px; width:200px; z-index: 1; position: absolute; visibility: hidden;">
+          Menu:<br>
+          <div id="menuContent">hey</div>
+      </div>
         <div id="filter">
             Minimum Links:
             <input id="counterFilter" min="1" max="25" value="2" type="range" />Top Entities:
@@ -130,6 +128,17 @@
     <script src="s/d3/d3.v3.min.js"></script>
     <script src="s/d3/colorbrewer.js"></script>
     <script>
+    
+        // For Menu
+        var mouse = {x: 0, y: 0};
+        document.addEventListener('mousemove', function(e){ 
+            mouse.x = e.clientX || e.pageX; 
+            mouse.y = e.clientY || e.pageY 
+        }, false);
+        function hideMenu() {
+            $("#menu").css("visibility", "hide");
+        }
+    
         var width = 700,
             height = 700;
 
@@ -250,9 +259,10 @@
                     return d.weight;
                 })
                 .on("click", function(d){
-                  $("#menu").css("visibility", "visible");
-                  $("#menuContent").text(d.docs);
-                  alert(d.docs)
+                    $("#menu").css("visibility", "visible");
+                    $("#menu").css("top", mouse.y+"px");
+                    $("#menu").css("left", mouse.x+"px");
+                    $("#menuContent").text(d.docs);
                  });
 
             link.exit().remove();
