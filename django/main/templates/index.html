@@ -135,8 +135,8 @@
             mouse.x = e.clientX || e.pageX; 
             mouse.y = e.clientY || e.pageY 
         }, false);
-        function hideMenu() {
-            $("#menu").css("visibility", "hide");
+        function hideMenu() { 
+            $("#menu").css("visibility", "hidden");
         }
     
         var width = 700,
@@ -182,8 +182,8 @@
                 var tg = force.nodes().indexOf(draggingNode);
                 var data = {
                     source: selectedNode,
-                    target: draggingNode
-                    //weight: 1
+                    target: draggingNode,
+                    weight: 1
                 };
                 var links = force.links();
                 links.push(data);
@@ -258,7 +258,7 @@
             link.enter().insert("line", ".node")
                 .attr("class", "link")
                 .style("stroke-width", function(d) {
-                    return Math.sqrt(d.weight);
+                    return d.weight;
                 });
 
             link.exit().remove();
@@ -280,7 +280,7 @@
                     $("#menu").css("visibility", "visible");
                     $("#menu").css("top", mouse.y+"px");
                     $("#menu").css("left", mouse.x+"px");
-                    $("#menuContent").text(d.docs);
+                    $("#menuContent").html(d.docs);
                  });
 
             link.exit().remove();
@@ -353,7 +353,7 @@
                     links.push({
                         source: sourceNode,
                         target: targetNode,
-                        weight: e.weight,
+                        weight: e.weight*2,
                         docs: e.docs
                     });
                 });
