@@ -165,7 +165,7 @@ class GlobalLoad:
         del nodesDict[key]
       if node.counter < counters[-15]:
         del nodesDict[key]'''
-      if node.counter < counterFilter or node.frequency < frequencies[-tfidfFilter]:
+      if node.counter < counterFilter or node.frequency < frequencies[-min(tfidfFilter,len(frequencies)-1)]:
         del nodesDict[key]
     print "len nodesDict filtered" + str(len(nodesDict))
     
