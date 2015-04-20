@@ -241,7 +241,7 @@
             link.enter().append("line", ".node")
                 .attr("class", "link")
                 .style("stroke-width", function(d) {
-                    return Math.sqrt(d.weight);
+                    return d.weight;
                 });
 
             link.exit().remove();
@@ -311,7 +311,9 @@
                     // Add the edge to the array
                     links.push({
                         source: sourceNode,
-                        target: targetNode
+                        target: targetNode,
+                        weight: e.weight,
+                        docs: e.docs
                     });
                 });
                 nodesize.domain([0, d3.max(graph.nodes, function(d) {

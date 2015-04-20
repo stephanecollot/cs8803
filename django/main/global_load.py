@@ -190,14 +190,16 @@ class GlobalLoad:
             continue
           if nodesDict[key1] < nodesDict[key2]:
             if (nodesDict[key1].id,nodesDict[key2].id) in linksDict:
-              linksDict[(nodesDict[key1].id,nodesDict[key2].id)] += 1
+              linksDict[(nodesDict[key1].id,nodesDict[key2].id)][0] += 1
+              linksDict[(nodesDict[key1].id,nodesDict[key2].id)][1].append(doc.fileName)
             else:
-              linksDict[(nodesDict[key1].id,nodesDict[key2].id)] = 1
+              linksDict[(nodesDict[key1].id,nodesDict[key2].id)] = [1,[doc.fileName]]
           else:
             if (nodesDict[key2],nodesDict[key1]) in linksDict:
-              linksDict[(nodesDict[key2].id,nodesDict[key1].id)] += 1
+              linksDict[(nodesDict[key2].id,nodesDict[key1].id)][0] += 1
+              linksDict[(nodesDict[key2].id,nodesDict[key1].id)][0].append(doc.fileName)
             else:
-              linksDict[(nodesDict[key2].id,nodesDict[key1].id)] = 1
+              linksDict[(nodesDict[key2].id,nodesDict[key1].id)] = [1,[doc.fileName]]
           pass
 
     print "linksDict len: " + str(len(linksDict))
@@ -206,9 +208,9 @@ class GlobalLoad:
     links = []
     for k, v in linksDict.viewitems():
       if not k[0] == k[1]:
-        links.append(Link(k[0],k[1],v))
-        adjacency[k[0]][k[1]] = v
-        adjacency[k[1]][k[0]] = v
+        links.append(Link(k[0],k[1],v[0],v[1]))
+        adjacency[k[0]][k[1]] = v[0]
+        adjacency[k[1]][k[0]] = v[0]
     
     print "links len: " + str(len(links))
  

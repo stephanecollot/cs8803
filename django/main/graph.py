@@ -14,9 +14,10 @@ class Node(object):
   
  
 class Link(object):
-  def __init__(self, source, target, weight = 1):
+  def __init__(self, source, target, weight = 1, docs = []):
     #logger.info('Link' + str(string))
     self.source = source
     self.target = target
     self.weight = weight
+    self.docs = docs
 
