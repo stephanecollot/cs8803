@@ -104,10 +104,11 @@
         <button name="addNode" onclick="addNode()">Add Node</button>
     </div>
     <div id="center">
-      <div id="menu" style="top: 35px; left: 200px; background-color: gray; height: 100px; width:200px; z-index: 1; position: absolute; visibility: hidden;">
-          Menu:<br>
-          <div id="menuContent">hey</div>
-      </div>
+        <div id="menu" style="top: 35px; left: 200px; background-color: gray; height: 100px; width:200px; z-index: 1; position: absolute; visibility: hidden;">
+            Menu:
+            <br>
+            <div id="menuContent">hey</div>
+        </div>
         <div id="filter">
             Minimum Node Rank:
             <input id="counterFilter" min="1" max="25" value="2" type="range" />Importance Score:
@@ -128,17 +129,20 @@
     <script src="s/d3/d3.v3.min.js"></script>
     <script src="s/d3/colorbrewer.js"></script>
     <script>
-    
         // For Menu
-        var mouse = {x: 0, y: 0};
-        document.addEventListener('mousemove', function(e){ 
-            mouse.x = e.clientX || e.pageX; 
-            mouse.y = e.clientY || e.pageY 
+        var mouse = {
+            x: 0,
+            y: 0
+        };
+        document.addEventListener('mousemove', function(e) {
+            mouse.x = e.clientX || e.pageX;
+            mouse.y = e.clientY || e.pageY
         }, false);
-        function hideMenu() { 
+
+        function hideMenu() {
             $("#menu").css("visibility", "hidden");
         }
-    
+
         var width = 700,
             height = 700;
 
@@ -276,18 +280,41 @@
                 .style("stroke-width", function(d) {
                     return d.weight;
                 })
-                .on("click", function(d){
+                .on("click", function(d) {
                     $("#menu").css("visibility", "visible");
-                    $("#menu").css("top", mouse.y+"px");
-                    $("#menu").css("left", mouse.x+"px");
+                    $("#menu").css("top", mouse.y + "px");
+                    $("#menu").css("left", mouse.x + "px");
                     $("#menuContent").html(d.docs);
-                 });
+                });
 
             link.exit().remove();
 
-            var nodesvg = svg.selectAll(".node").data(nodes);
+            var nodesvg = svg.selectAll(".node")
+                .data(nodes);
+
+            nodesvg.select("circle")
+                .attr("r", function(d) {
+                    return nodesize(d.rank);
+                })
+                .on("click", function() {
+                    if (d3.event.defaultPrevented) return; // click suppressed
+                    console.log("clicked!");
+                })
+                .on("mouseover", overCircle)
+                .on("mouseout", outCircle)
+                .style("fill", function(d) {
+                    return color(d.type);
+                });
+
+            nodesvg.select("text")
+                .text(function(d) {
+                    return d.name;
+                });
+
+
             node = nodesvg.enter().append("g")
-                .attr("class", "node");
+                .attr("class", "node")
+                .call(force.drag);
 
 
             node.append("circle")
@@ -309,10 +336,31 @@
                 .text(function(d) {
                     return d.name;
                 });
-            node.call(force.drag);
 
             nodesvg.exit().remove();
-            //force.stop;
+
+            force.on("tick", function(e) {
+                var link = svg.selectAll(".link");
+                var node = svg.selectAll(".node");
+
+                link.attr("x1", function(d) {
+                    return d.source.x;
+                })
+                    .attr("y1", function(d) {
+                        return d.source.y;
+                    })
+                    .attr("x2", function(d) {
+                        return d.target.x;
+                    })
+                    .attr("y2", function(d) {
+                        return d.target.y;
+                    });
+
+                node
+                    .attr("transform", function(d) {
+                        return "translate(" + d.x + "," + d.y + ")";
+                    });
+            });
             force.start();
 
         }
@@ -353,7 +401,7 @@
                     links.push({
                         source: sourceNode,
                         target: targetNode,
-                        weight: e.weight*2,
+                        weight: e.weight * 2,
                         docs: e.docs
                     });
                 });
@@ -367,33 +415,6 @@
                     .links(links);
 
                 restart();
-                force.on("tick", function(e) {
-                    var link = svg.selectAll(".link");
-                    var node = svg.selectAll(".node");
-
-                    link.attr("x1", function(d) {
-                        return d.source.x;
-                    })
-                        .attr("y1", function(d) {
-                            return d.source.y;
-                        })
-                        .attr("x2", function(d) {
-                            return d.target.x;
-                        })
-                        .attr("y2", function(d) {
-                            return d.target.y;
-                        });
-
-                    node
-                        .attr("transform", function(d) {
-                            return "translate(" + d.x + "," + d.y + ")";
-                        });
-                });
-
-
-                //                svg //.on("mousemove", mousemove)
-                //                .on("dblclick", addNode);
-
 
 
                 /**
@@ -415,8 +436,8 @@
                     return 0;
                 }).reverse();
 
-                //            var barWidth = 150,
                 var barHeight = 20;
+                var namewidth = 150;
 
                 var x = d3.scale.linear()
                     .domain([0, d3.max(entities, function(d) {
@@ -425,14 +446,45 @@
                     .range([10, 150]);
 
                 var chart = d3.select(".chart").selectAll("g")
-                    .data(entities);
+                    .data(entities)
+                    .attr("transform", function(d, i) {
+                        return "translate(0," + i * barHeight + ")";
+                    });;
+
+                chart.select("rect")
+                    .attr("fill", function(d) {
+                        return color(d.type);
+                    })
+                    .attr("x", function(d) {
+                        return namewidth + 150 - x(d.counter)
+                    })
+                    .attr("width", function(d) {
+                        return x(d.counter);
+                    })
+                    .attr("height", barHeight - 1)
+                chart.select(".num")
+                    .attr("class", "num")
+                    .attr("x", function(d) {
+                        return namewidth + 150 - 3;
+                    })
+                    .attr("y", barHeight / 2)
+                //.attr("dy", ".35em")
+                .text(function(d) {
+                    return d.counter;
+                });
+                chart.select("text")
+                    .text(function(d) {
+                        return d.name
+                    })
+
+                ;
+
 
                 bar = chart.enter().append("g")
                     .attr("transform", function(d, i) {
                         return "translate(0," + i * barHeight + ")";
                     });
 
-                var namewidth = 150;
                 bar.append("text")
                 //.attr("x", namewidth)
                 .attr("title", function(d) { //this doesn't work, come back and fix it
