@@ -238,7 +238,7 @@
 
             var link = svg.selectAll(".link").data(links);
 
-            link.enter().insert("line", ".node")
+            link.enter().append("line", ".node")
                 .attr("class", "link")
                 .style("stroke-width", function(d) {
                     return Math.sqrt(d.weight);
