@@ -95,6 +95,12 @@
 </head>
 
 <body>
+    <div id="menu" style="top: 35px; left: 200px; background-color: gray; height: 100px; width:100px; z-index: 1; position: absolute; visibility: hidden;">
+      <p>Menu:</p>
+       <div id="menuContent">
+       hey
+       </div>
+    </div>
     <div id="left">
         <h3>Entities</h3>
         <div style="overflow-y:auto; height:625px;">
@@ -242,7 +248,12 @@
                 .attr("class", "link")
                 .style("stroke-width", function(d) {
                     return d.weight;
-                });
+                })
+                .on("click", function(d){
+                  $("#menu").css("visibility", "visible");
+                  $("#menuContent").text(d.docs);
+                  alert(d.docs)
+                 });
 
             link.exit().remove();
 

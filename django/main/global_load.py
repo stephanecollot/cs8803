@@ -191,15 +191,15 @@ class GlobalLoad:
           if nodesDict[key1] < nodesDict[key2]:
             if (nodesDict[key1].id,nodesDict[key2].id) in linksDict:
               linksDict[(nodesDict[key1].id,nodesDict[key2].id)][0] += 1
-              linksDict[(nodesDict[key1].id,nodesDict[key2].id)][1].append(doc.fileName)
+              linksDict[(nodesDict[key1].id,nodesDict[key2].id)][1].append(doc.id)
             else:
-              linksDict[(nodesDict[key1].id,nodesDict[key2].id)] = [1,[doc.fileName]]
+              linksDict[(nodesDict[key1].id,nodesDict[key2].id)] = [1,[doc.id]]
           else:
             if (nodesDict[key2],nodesDict[key1]) in linksDict:
               linksDict[(nodesDict[key2].id,nodesDict[key1].id)][0] += 1
-              linksDict[(nodesDict[key2].id,nodesDict[key1].id)][0].append(doc.fileName)
+              linksDict[(nodesDict[key2].id,nodesDict[key1].id)][0].append(doc.id)
             else:
-              linksDict[(nodesDict[key2].id,nodesDict[key1].id)] = [1,[doc.fileName]]
+              linksDict[(nodesDict[key2].id,nodesDict[key1].id)] = [1,[doc.id]]
           pass
 
     print "linksDict len: " + str(len(linksDict))
