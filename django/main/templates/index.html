@@ -105,7 +105,7 @@
     </div>
     <div id="center">
         <div id="filter">
-            Minimum Links:
+            Minimum Node Rank:
             <input id="counterFilter" min="1" max="25" value="2" type="range" />Top Entities:
             <input type="range" min="10" max="500" id="tfidfFilter" value="100" />
             <button name="update" onclick="update()">Update</button>
@@ -238,7 +238,7 @@
 
             var link = svg.selectAll(".link").data(links);
 
-            link.enter().append("line", ".node")
+            link.enter().insert("line", ".node")
                 .attr("class", "link")
                 .style("stroke-width", function(d) {
                     return Math.sqrt(d.weight);
