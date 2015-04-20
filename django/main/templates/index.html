@@ -161,7 +161,7 @@
             });
 
         var updateLink = function() {
-            if (draggingNode != null && selectedNode != null) {
+            if (draggingNode != null && selectedNode != null && draggingNode != selectedNode) {
                 // have to flip the source coordinates since we did this for the existing connectors on the original tree
                 var sc = force.nodes().indexOf(selectedNode);
                 var tg = force.nodes().indexOf(draggingNode);
@@ -194,6 +194,7 @@
             // d3.select(this).classed("fixed", d.fixed);
         }
 
+
         function update() {
             cf = $("#counterFilter").val();
             tf = $("#tfidfFilter").val();
@@ -203,7 +204,7 @@
         function addNode() {
             var nodes = force.nodes()
             var nodeId = d3.max(nodes, function(d) {
-                return d.id;
+                return d.id + 1;
             })
             var nname = document.getElementById('node_text').value;
             //            var point = d3.mouse(this),
@@ -226,8 +227,8 @@
         }
 
         function outCircle(d) {
-            selectedNode = null;
             d3.select(this).classed("selected", false);
+            selectedNode = null;
 
             //updateLink();
         }
@@ -256,10 +257,11 @@
                 .attr("r", function(d) {
                     return nodesize(d.rank);
                 })
-            //                .on("dblclick", function(d) {
-            //                    d.fixed = !d.fixed;
-            //                })
-            .on("mouseover", overCircle)
+                .on("click", function() {
+                    if (d3.event.defaultPrevented) return; // click suppressed
+                    console.log("clicked!");
+                })
+                .on("mouseover", overCircle)
                 .on("mouseout", outCircle)
                 .style("fill", function(d) {
                     return color(d.type);
@@ -349,8 +351,8 @@
                 });
 
 
-                svg //.on("mousemove", mousemove)
-                .on("dblclick", addNode);
+                //                svg //.on("mousemove", mousemove)
+                //                .on("dblclick", addNode);
 
 
 
