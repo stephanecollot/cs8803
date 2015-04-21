@@ -121,7 +121,7 @@
         <div id="filter">
             Min. number of Docs:
             <input id="counterFilter" min="0" max="25" value="2" type="range" />Best TF-IDF:
-            <input type="range" min="0" max="4100" id="tfidfFilter" value="100" />
+            <input type="range" min="0" max="4100" id="tfidfFilter" value="200" />
             <br/>
             <button name="update" onclick="update()" style="margin-top: 10px; margin-bottom: 10px;">Update</button>
         </div>
@@ -163,7 +163,7 @@
         var usercolor = "#ffeda0"; //d3.scale.ordinal().range(colorbrewer.YlOrBr[4]);
 
         var force = d3.layout.force()
-            .gravity(0.05)
+            .gravity(0.15)
             .charge(-200) //-120
             .linkDistance(150) //125
             .size([width, height]);
