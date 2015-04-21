@@ -49,7 +49,7 @@ class DocumentList:
   def search(self, text):
     found = []
     for doc in self.docs:
-      if text in doc.content:
+      if text.lower() in doc.content.lower():
         #logger.info('Doc id:' + str(doc.id) + '(' + doc.fileName + ') contains: ' + text)
         insight = self.get_insight(doc.content, text).replace(text, '<span class="search">' + text + '</span>')
         found.append((doc.id, doc.fileName, insight))
