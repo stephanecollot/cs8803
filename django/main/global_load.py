@@ -7,6 +7,7 @@ from textblob import TextBlob as tb
 from document import Document, DocumentList, Entity
 from graph import Node, Link
 from pageRank import pageRank
+import hashlib
 
 import logging
 logger = logging.getLogger(__name__)
@@ -93,7 +94,7 @@ class GlobalLoad:
       for j in i.entities:
         if j.tfidf>=foobar90:
           ct = ct+1
-          print j.name
+          #print j.name
 
     print "Total count of entities >90th percentile" + str(ct)
 
@@ -175,8 +176,11 @@ class GlobalLoad:
     
     # Set node's id
     i = 0
+    IdToPosition = {}
     for key, node in nodesDict.iteritems():
       nodesDict[key].id = i # TODO can be optimized and node just before in 'uniqueNodes.append(node)'
+      nodesDict[key].id = abs(hash(key)) % (10 ** 8)
+      IdToPosition[ nodesDict[key].id ] = i
       i += 1
       
     #Todo Update rank and frequency of Nodes ...
@@ -213,8 +217,8 @@ class GlobalLoad:
     for k, v in linksDict.viewitems():
       if not k[0] == k[1]:
         links.append(Link(k[0],k[1],v[0],v[1]))
-        adjacency[k[0]][k[1]] = v[0]
-        adjacency[k[1]][k[0]] = v[0]
+        adjacency[IdToPosition[k[0]]][IdToPosition[k[1]]] = v[0]
+        adjacency[IdToPosition[k[1]]][IdToPosition[k[0]]] = v[0]
     
     print "links len: " + str(len(links))
  
@@ -222,7 +226,7 @@ class GlobalLoad:
     pr = pageRank(adjacency, .85, .000001)
     
     for key, node in nodesDict.iteritems():
-      nodesDict[key].rank = pr[nodesDict[key].id]    
+      nodesDict[key].rank = pr[IdToPosition[nodesDict[key].id]]    
     
     self.nodes = nodesDict.values()
     self.links = links

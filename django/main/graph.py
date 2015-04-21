@@ -1,4 +1,5 @@
 import json
+from django.conf import settings
 import logging
 logger = logging.getLogger(__name__)
 
@@ -19,11 +20,11 @@ class Link(object):
     self.source = source
     self.target = target
     self.weight = weight
-    self.docs = getHtmlLinks(docs)
+    self.docs = self.getHtmlLinks(docs)
 
-  def getHtmlLinks(docs):
+  def getHtmlLinks(self, docs):
     html = ""
     for docId in docs:
       doc = settings.GLOBAL_LOAD.docList.docs[int(docId)]
-      html += '<a href="#" onClick="openDocument('+doc.id+');return false;">' + doc.name + '</a><br>'
+      html += '<a href="#" onClick="openDocument('+str(doc.id)+'); hideMenu(); return false;">' + doc.fileName + '</a><br>'
     return html

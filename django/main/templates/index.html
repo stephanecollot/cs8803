@@ -25,7 +25,7 @@
         #right {
             line-height: 30px;
             background-color: #eeeeee;
-            width: 280px;
+            width: 270px;
             height: 700px;
             float: left;
             padding: 5px;
@@ -92,22 +92,25 @@
     }
     </style>
     <link rel="stylesheet" type="text/css" href="http://127.0.0.1:8000/s/entities.css">
+    <title>Sensemaking using entities in a graph</title>
 </head>
 
 <body>
     <div id="left">
+        <input type="text" id="node_text" size="28" />
+        <button name="addNode" onclick="addNode()">Add Node</button>
         <h3>Entities</h3>
         <div style="overflow-y:auto; height:625px;">
             <svg id="leftcanvas" />
         </div>
-        <input type="text" id="node_text" size="40" />
-        <button name="addNode" onclick="addNode()">Add Node</button>
     </div>
     <div id="center">
-      <div id="menu" style="top: 35px; left: 200px; background-color: gray; height: 100px; width:200px; z-index: 1; position: absolute; visibility: hidden;">
-          Menu:<br>
-          <div id="menuContent">hey</div>
-      </div>
+        <div id="menu" style="top: 35px; left: 200px; border-radius: 25px; padding: 10px; background-color: #C8C8C8; height: 100px; width:200px; z-index: 1; position: absolute; visibility: hidden;">
+            Documents:
+            <br>
+            <div id="menuContent">hey</div>
+            <a onclick="hideMenu(); return false;" href="#"><img src="s/close-icon.png" alt="Close" height="20" width="20" style="position:absolute; top:5px; right:5px;"></a>
+        </div>
         <div id="filter">
             Minimum Node Rank:
             <input id="counterFilter" min="1" max="25" value="2" type="range" />Importance Score:
@@ -118,7 +121,7 @@
     </div>
     <div id="right">
         Search Documents:
-        <input type="text" id="search" />
+        <input type="text" id="search" size="18" />
         <div id="result">
         </div>
     </div>
@@ -128,17 +131,20 @@
     <script src="s/d3/d3.v3.min.js"></script>
     <script src="s/d3/colorbrewer.js"></script>
     <script>
-    
         // For Menu
-        var mouse = {x: 0, y: 0};
-        document.addEventListener('mousemove', function(e){ 
-            mouse.x = e.clientX || e.pageX; 
-            mouse.y = e.clientY || e.pageY 
+        var mouse = {
+            x: 0,
+            y: 0
+        };
+        document.addEventListener('mousemove', function(e) {
+            mouse.x = e.clientX || e.pageX;
+            mouse.y = e.clientY || e.pageY
         }, false);
+
         function hideMenu() {
-            $("#menu").css("visibility", "hide");
+            $("#menu").css("visibility", "hidden");
         }
-    
+
         var width = 700,
             height = 700;
 
@@ -149,12 +155,12 @@
         var usercolor = "#ffeda0"; //d3.scale.ordinal().range(colorbrewer.YlOrBr[4]);
 
         var force = d3.layout.force()
-            .gravity(0.20)
-            .charge(-120)
-            .linkDistance(125)
+            .gravity(0.05)
+            .charge(-160) //-120
+            .linkDistance(70) //125
             .size([width, height]);
 
-        var nodesize = d3.scale.pow();
+        var nodesize = d3.scale.pow().exponent(.5).range([10, 25]);
 
         var selectedNode = null;
         var draggingNode = null;
@@ -182,8 +188,8 @@
                 var tg = force.nodes().indexOf(draggingNode);
                 var data = {
                     source: selectedNode,
-                    target: draggingNode
-                    //weight: 1
+                    target: draggingNode,
+                    weight: 1
                 };
                 var links = force.links();
                 links.push(data);
@@ -238,17 +244,14 @@
         function overCircle(d) {
             selectedNode = d;
             d3.select(this).classed("selected", true);
-            //updateLink();
         }
 
         function outCircle(d) {
             d3.select(this).classed("selected", false);
             selectedNode = null;
-
-            //updateLink();
         }
 
-        function updateLinksOnly() {
+        function updateLinksOnly() {//this probably is no longer necessary because i fixed the node update problem
             force.start();
             var links = force.links(),
                 nodes = force.nodes();
@@ -258,7 +261,7 @@
             link.enter().insert("line", ".node")
                 .attr("class", "link")
                 .style("stroke-width", function(d) {
-                    return Math.sqrt(d.weight);
+                    return d.weight;
                 });
 
             link.exit().remove();
@@ -269,6 +272,12 @@
             var links = force.links(),
                 nodes = force.nodes();
 
+            nodesize
+                .domain([0, d3.max(nodes, function(d) {
+                    return d.rank;
+                })]);
+                
+
             var link = svg.selectAll(".link").data(links);
 
             link.enter().insert("line", ".node")
@@ -276,18 +285,42 @@
                 .style("stroke-width", function(d) {
                     return d.weight;
                 })
-                .on("click", function(d){
+                .on("click", function(d) {
                     $("#menu").css("visibility", "visible");
-                    $("#menu").css("top", mouse.y+"px");
-                    $("#menu").css("left", mouse.x+"px");
-                    $("#menuContent").text(d.docs);
-                 });
+                    $("#menu").css("top", mouse.y + "px");
+                    $("#menu").css("left", mouse.x + "px");
+                    $("#menuContent").html(d.docs);
+                });
 
             link.exit().remove();
 
-            var nodesvg = svg.selectAll(".node").data(nodes);
+            var nodesvg = svg.selectAll(".node")
+                .data(nodes);
+
+            //update existing
+            nodesvg.select("circle")
+                .attr("r", function(d) {
+                    return nodesize(d.rank);
+                })
+                .on("click", function() {
+                    if (d3.event.defaultPrevented) return; // click suppressed
+                    console.log("clicked!");
+                })
+                .on("mouseover", overCircle)
+                .on("mouseout", outCircle)
+                .style("fill", function(d) {
+                    return color(d.type);
+                });
+
+            nodesvg.select("text")
+                .text(function(d) {
+                    return d.name;
+                });
+
+
             node = nodesvg.enter().append("g")
-                .attr("class", "node");
+                .attr("class", "node")
+                .call(force.drag);
 
 
             node.append("circle")
@@ -309,10 +342,31 @@
                 .text(function(d) {
                     return d.name;
                 });
-            node.call(force.drag);
 
             nodesvg.exit().remove();
-            //force.stop;
+
+            force.on("tick", function(e) {
+                var link = svg.selectAll(".link");
+                var node = svg.selectAll(".node");
+
+                link.attr("x1", function(d) {
+                    return d.source.x;
+                })
+                    .attr("y1", function(d) {
+                        return d.source.y;
+                    })
+                    .attr("x2", function(d) {
+                        return d.target.x;
+                    })
+                    .attr("y2", function(d) {
+                        return d.target.y;
+                    });
+
+                node
+                    .attr("transform", function(d) {
+                        return "translate(" + d.x + "," + d.y + ")";
+                    });
+            });
             force.start();
 
         }
@@ -353,47 +407,16 @@
                     links.push({
                         source: sourceNode,
                         target: targetNode,
-                        weight: e.weight,
+                        weight: e.weight * 2,
                         docs: e.docs
                     });
                 });
-                nodesize.domain([0, d3.max(graph.nodes, function(d) {
-                    return d.rank;
-                })])
-                    .range([10, 25]);
 
                 force
                     .nodes(graph.nodes)
                     .links(links);
 
                 restart();
-                force.on("tick", function(e) {
-                    var link = svg.selectAll(".link");
-                    var node = svg.selectAll(".node");
-
-                    link.attr("x1", function(d) {
-                        return d.source.x;
-                    })
-                        .attr("y1", function(d) {
-                            return d.source.y;
-                        })
-                        .attr("x2", function(d) {
-                            return d.target.x;
-                        })
-                        .attr("y2", function(d) {
-                            return d.target.y;
-                        });
-
-                    node
-                        .attr("transform", function(d) {
-                            return "translate(" + d.x + "," + d.y + ")";
-                        });
-                });
-
-
-                //                svg //.on("mousemove", mousemove)
-                //                .on("dblclick", addNode);
-
 
 
                 /**
@@ -415,8 +438,8 @@
                     return 0;
                 }).reverse();
 
-                //            var barWidth = 150,
                 var barHeight = 20;
+                var namewidth = 150;
 
                 var x = d3.scale.linear()
                     .domain([0, d3.max(entities, function(d) {
@@ -425,14 +448,45 @@
                     .range([10, 150]);
 
                 var chart = d3.select(".chart").selectAll("g")
-                    .data(entities);
+                    .data(entities)
+                    .attr("transform", function(d, i) {
+                        return "translate(0," + i * barHeight + ")";
+                    });;
+
+                chart.select("rect")
+                    .attr("fill", function(d) {
+                        return color(d.type);
+                    })
+                    .attr("x", function(d) {
+                        return namewidth + 150 - x(d.counter)
+                    })
+                    .attr("width", function(d) {
+                        return x(d.counter);
+                    })
+                    .attr("height", barHeight - 1)
+                chart.select(".num")
+                    .attr("class", "num")
+                    .attr("x", function(d) {
+                        return namewidth + 150 - 3;
+                    })
+                    .attr("y", barHeight / 2)
+                //.attr("dy", ".35em")
+                .text(function(d) {
+                    return d.counter;
+                });
+                chart.select("text")
+                    .text(function(d) {
+                        return d.name
+                    })
+
+                ;
+
 
                 bar = chart.enter().append("g")
                     .attr("transform", function(d, i) {
                         return "translate(0," + i * barHeight + ")";
                     });
 
-                var namewidth = 150;
                 bar.append("text")
                 //.attr("x", namewidth)
                 .attr("title", function(d) { //this doesn't work, come back and fix it
@@ -501,6 +555,6 @@
                 });
         });
 
-        loadGraph(2, 75);
+        loadGraph(2, 200);
     </script>
 
