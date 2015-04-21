@@ -113,8 +113,8 @@
         </div>
         <div id="filter">
             Minimum Node Rank:
-            <input id="counterFilter" min="1" max="25" value="2" type="range" />Importance Score:
-            <input type="range" min="10" max="500" id="tfidfFilter" value="100" />
+            <input id="counterFilter" min="0" max="25" value="2" type="range" />Importance Score:
+            <input type="range" min="0" max="4100" id="tfidfFilter" value="100" />
             <button name="update" onclick="update()">Update</button>
         </div>
         <svg id="graphcanvas" />
@@ -160,7 +160,7 @@
             .linkDistance(70) //125
             .size([width, height]);
 
-        var nodesize = d3.scale.pow().exponent(.5).range([10, 25]);
+        var nodesize = d3.scale.pow().exponent(.5).range([5, 25]);
 
         var selectedNode = null;
         var draggingNode = null;

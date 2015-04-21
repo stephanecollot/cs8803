@@ -214,20 +214,33 @@ class GlobalLoad:
         
     adjacency = np.zeros((len(nodesDict), len(nodesDict)))# Adjacency matrix
     links = []
-    for k, v in linksDict.viewitems():
+    for k, link in linksDict.viewitems():
       if not k[0] == k[1]:
-        links.append(Link(k[0],k[1],v[0],v[1]))
-        adjacency[IdToPosition[k[0]]][IdToPosition[k[1]]] = v[0]
-        adjacency[IdToPosition[k[1]]][IdToPosition[k[0]]] = v[0]
+        links.append(Link(k[0],k[1],link[0],link[1]))
+        adjacency[IdToPosition[k[0]]][IdToPosition[k[1]]] = link[0]
+        adjacency[IdToPosition[k[1]]][IdToPosition[k[0]]] = link[0]
     
     print "links len: " + str(len(links))
- 
-
+    
     pr = pageRank(adjacency, .85, .000001)
-    
     for key, node in nodesDict.iteritems():
-      nodesDict[key].rank = pr[IdToPosition[nodesDict[key].id]]    
+      nodesDict[key].rank = pr[IdToPosition[nodesDict[key].id]]  
     
+    # Keep only link with weight >= 2
+    '''entitiesToKeep = []
+    for link in links:
+      if link.weight <= 1:
+        links = [x for x in links if x != link]
+        #links.remove(link)
+      else:
+        entitiesToKeep.append(link.source)
+        entitiesToKeep.append(link.target)
+        
+    # Keep only entity connected
+    for key, node in nodesDict.items():
+      if not node.id in entitiesToKeep:
+        del nodesDict[key]'''
+        
     self.nodes = nodesDict.values()
     self.links = links
     
