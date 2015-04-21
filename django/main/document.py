@@ -41,7 +41,7 @@ class DocumentList:
   
   def get_insight(self, doc, text):
     index = doc.find(text)
-    size = 20
+    size = 50
     beg = max(0, index - size)
     end = min(index + size, len(doc))
     return ("" if beg == 0 else "...") + doc[beg : end] + ("" if end == len(doc) else "...")
