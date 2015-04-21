@@ -287,6 +287,11 @@
                 
 
             var link = svg.selectAll(".link").data(links);
+            link.attr("class", "link")
+                .style("stroke-width", function(d) {
+                    return d.weight;
+                })
+
 
             link.enter().insert("line", ".node")
                 .attr("class", "link")
