@@ -119,10 +119,9 @@
             <a onclick="hideMenu(); return false;" href="#"><img src="s/close-icon.png" alt="Close" height="20" width="20" style="position:absolute; top:5px; right:5px;"></a>
         </div>
         <div id="filter">
-            Min. number of Docs:
-            <input id="counterFilter" min="0" max="25" value="19" type="range" />Best TF-IDF:
+            Document Count:
+            <input id="counterFilter" min="0" max="25" value="19" type="range" />Importance:
             <input type="range" min="0" max="4100" id="tfidfFilter" value="3125" />
-            <br/>
             <button name="update" onclick="update()" style="margin-top: 10px; margin-bottom: 10px;">Update</button>
         </div>
         <svg id="graphcanvas" />
@@ -130,7 +129,7 @@
     <div id="right">
         Search Documents:
         <input type="text" id="search" size="18" style="margin-top: 15px; margin-bottom: 15px;"/>
-        <div id="result">
+        <div id="result" style="overflow-y:auto;height:625px;">
         </div>
     </div>
 
@@ -165,10 +164,10 @@
         var force = d3.layout.force()
             .gravity(0.15)
             .charge(-200) //-120
-            .linkDistance(150) //125
+            .linkDistance(175) //125
             .size([width, height]);
 
-        var nodesize = d3.scale.pow().exponent(.5).range([5, 25]);
+        var nodesize = d3.scale.sqrt().range([10, 25]);
 
         var selectedNode = null;
         var draggingNode = null;
@@ -282,7 +281,7 @@
 
             nodesize
                 .domain([0, d3.max(nodes, function(d) {
-                    return d.rank;
+                    return d.frequency;
                 })]);
                 
 
@@ -302,6 +301,7 @@
                     $("#menu").css("visibility", "visible");
                     $("#menu").css("top", mouse.y + "px");
                     $("#menu").css("left", mouse.x + "px");
+                    $("#menu").css("overflow-y", "auto");
                     $("#menuContent").html(d.docs);
                 });
 
@@ -313,7 +313,7 @@
             //update existing
             nodesvg.select("circle")
                 .attr("r", function(d) {
-                    return nodesize(d.rank);
+                    return nodesize(d.frequency);
                 })
                 .on("click", function() {
                     if (d3.event.defaultPrevented) return; // click suppressed
@@ -570,6 +570,6 @@
                 });
         });
 
-        loadGraph(19, 3125);
+        loadGraph(19, 2500);
     </script>
 
