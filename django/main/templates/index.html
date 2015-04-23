@@ -119,9 +119,10 @@
             <a onclick="hideMenu(); return false;" href="#"><img src="s/close-icon.png" alt="Close" height="20" width="20" style="position:absolute; top:5px; right:5px;"></a>
         </div>
         <div id="filter">
-            Document Count:
-            <input id="counterFilter" min="0" max="25" value="19" type="range" />Importance:
-            <input type="range" min="0" max="4100" id="tfidfFilter" value="3125" />
+            Document Count <span id="valCounterFilter" style="font-family: Lucida Console; font-size: 14px;"></span>:
+            <input id="counterFilter" min="0" max="25" value="19" type="range" oninput="showCounterFilter(this.value)" onchange="showCounterFilter(this.value)"/>
+            Top-<span id="valTfidfFilter" style="font-family: Lucida Console; font-size: 14px;"></span> TF-IDF score:
+            <input type="range" min="0" max="4100" id="tfidfFilter" value="3125" oninput="showTfidfFilter(this.value)" onchange="showTfidfFilter(this.value)" />
             <button name="update" onclick="update()" style="margin-top: 10px; margin-bottom: 10px;">Update</button>
         </div>
         <svg id="graphcanvas" />
@@ -138,6 +139,29 @@
     <script src="s/d3/d3.v3.min.js"></script>
     <script src="s/d3/colorbrewer.js"></script>
     <script>
+        // For sliders
+        function spacePadding(str, nbr = 5) {
+          //String("00000" + n).slice(-5); // returns 00123
+          //("00000" + n).slice(-5); // returns 00123
+          spaces = "";
+          for (i = 0; i < nbr; i++) { 
+            spaces += " ";
+          }
+          console.log(spaces);
+          pad = (str + spaces).slice(0,nbr); // returns "  123" (with two spaces)
+          pad = pad.replace(/ /g, '&nbsp;');//pad.replace(" ", "&nbsp;");
+          console.log(pad);
+          return pad
+        }
+        showTfidfFilter(3125)
+        function showTfidfFilter(newVal){
+          document.getElementById("valTfidfFilter").innerHTML=spacePadding(newVal,4);
+        }
+        showCounterFilter(19)
+        function showCounterFilter(newVal){
+          document.getElementById("valCounterFilter").innerHTML=spacePadding(newVal,2);
+        }
+    
         // For Menu
         var mouse = {
             x: 0,
