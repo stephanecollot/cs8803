@@ -2,7 +2,7 @@ $('#search').on('input', function() {
   var text = $("#search").val();
   if(text != "") {
     $.ajax({
-		  url: "http://127.0.0.1:8000/search/" + text,
+		  url: "search/" + text,
 		  crossDomain:true,
 		  method: "GET",
 		  dataType: 'json',

@@ -63,7 +63,7 @@ def getHtml(document):
   html = html.replace("\n", "<br/>")
   for e in entities:
     html = html.replace(e.name, '<span class="'+e.type +'">' + e.name + '</span>')
-  html = '<link rel="stylesheet" type="text/css" href="http://127.0.0.1:8000/s/entities.css"><meta charset="UTF-8">' + html
+  html = '<link rel="stylesheet" type="text/css" href="/s/entities.css"><meta charset="UTF-8">' + html
   return html
 
 def graph(request):
