@@ -2,7 +2,7 @@ $('#search').on('input', function() {
   var text = $("#search").val();
   if(text != "") {
     $.ajax({
-		  url: "search/" + text,
+		  url: "/search/" + text,
 		  crossDomain:true,
 		  method: "GET",
 		  dataType: 'json',
@@ -30,7 +30,7 @@ function search() {
   var text = $("#search").val();
   //alert("Let's search " + text);
   $.ajax({
-		url: "http://127.0.0.1:8000/search/" + text,
+		url: "/search/" + text,
 		crossDomain:true,
 		method: "GET",
 		dataType: 'json',
@@ -39,6 +39,6 @@ function search() {
 }
 
 function openDocument(id) {
-  window.open('http://127.0.0.1:8000/document/' + id, id, 'width=300, height=300, scrollbars=1');
+  window.open('/document/' + id, id, 'width=300, height=300, scrollbars=1');
   //window.open('test.txt', 'newwindow', 'width=300, height=300, scrollbars=1');
 }
