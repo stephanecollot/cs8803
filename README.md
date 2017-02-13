@@ -1,5 +1,12 @@
-# cs8803
+# cs8803 Visual Data Analysis
 
+Sensemaking using entities in a graph
+
+Video demo: https://www.youtube.com/watch?v=adv3CvW96ws&feature=youtu.be
+
+![screenshot](https://cloud.githubusercontent.com/assets/1184396/22908220/8a339124-f24d-11e6-9357-85b3c3c9b86c.png)
+
+## Dev environment
 Please put all the .txt files in ``stego_dataset/`` (they are ignored by git, irrelevant to commit)
 
 
