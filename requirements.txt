@@ -1,4 +1,4 @@
-Django==1.8
+Django==1.11.28
 PAM==0.4.2
 Pillow==2.3.0
 Twisted-Core==13.2.0
